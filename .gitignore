@@ -1,0 +1,7 @@
+Debug/
+x64/
+Routine/Debug/
+Routine/x64/
+*.suo
+*.opendb
+*.db
