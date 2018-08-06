@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CMazeController.h"
+#include "CAStarMazeSolver.h"
 #include "Vector2D.h"
 
 int main()
@@ -12,6 +13,9 @@ int main()
    maze.setEndPoint(Vector2D(20, 10));
 
    maze.draw();
+
+   CAStarMazeSolver solver(maze.getMazeModel());
+   solver.solve();
 
    system("pause");
 }

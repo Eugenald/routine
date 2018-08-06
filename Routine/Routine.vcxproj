@@ -111,14 +111,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AStarMazeSolver.cpp" />
+    <ClCompile Include="CAStarMazeSolver.cpp" />
     <ClCompile Include="CMazeModel.cpp" />
     <ClCompile Include="CMazeVisualizer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CMazeController.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AStarMazeSolver.h" />
+    <ClInclude Include="CAStarMazeSolver.h" />
     <ClInclude Include="CMazeModel.h" />
     <ClInclude Include="CMazeVisualizer.h" />
     <ClInclude Include="CMazeController.h" />

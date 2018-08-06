@@ -49,7 +49,7 @@ void CMazeController::fillMaze()
    {
       for (int x = 0; x < mMazeModel->getWidth(); x++)
       {
-         mMazeModel->setCellContent(Vector2D(x,y), '0');
+         mMazeModel->setCellContent(Vector2D(x,y), PATH_SYMBOL);
       }
    }
 }
