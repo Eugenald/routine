@@ -111,13 +111,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CVisualizer.cpp" />
+    <ClCompile Include="AStarMazeSolver.cpp" />
+    <ClCompile Include="CMazeModel.cpp" />
+    <ClCompile Include="CMazeVisualizer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="CMazeCreator.cpp" />
+    <ClCompile Include="CMazeController.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CVisualizer.h" />
-    <ClInclude Include="CMazeCreator.h" />
+    <ClInclude Include="AStarMazeSolver.h" />
+    <ClInclude Include="CMazeModel.h" />
+    <ClInclude Include="CMazeVisualizer.h" />
+    <ClInclude Include="CMazeController.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
