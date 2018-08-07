@@ -13,14 +13,26 @@ const char DIR_RIGHT_SYMBOL = 'R';
 
 struct Cell
 {
-   Cell(const char _content, Vector2D _coordinate) : content(_content), coordinate(_coordinate), heuristicCost(0), totalCost(0), cameFrom(nullptr) {};
+   Cell(const char _content, Vector2D _coordinate) : content(_content), coordinate(_coordinate){};
    char content;
    int weight = 1;
-   float heuristicCost;
-   float totalCost;
-   Cell* cameFrom;
-   Vector2D coordinate;
+   float heuristicCost = 0;
+   float totalCost = 0;
+   bool processed = false;
+   Cell* cameFrom = nullptr;
+   Vector2D coordinate = Vector2D(0, 0);
+
+   friend bool operator==(Cell& left, Cell& right);
 };
+
+inline bool operator==(Cell& left, Cell& right) {
+   return left.coordinate == right.coordinate;
+}
+
+inline bool operator != (Cell& left, Cell& right)
+{
+   return !(left == right);
+}
 
 class CMazeModel
 {

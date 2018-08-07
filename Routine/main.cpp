@@ -17,5 +17,8 @@ int main()
    CAStarMazeSolver solver(maze.getMazeModel());
    solver.solve();
 
+   std::vector<Cell*> vec{ nullptr, nullptr };
+   std::cout << vec.size();
+
    system("pause");
 }
