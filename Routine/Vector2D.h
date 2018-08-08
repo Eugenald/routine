@@ -18,7 +18,7 @@ public:
 };
 
 inline std::ostream &operator<<(std::ostream &os, Vector2D const &m) {
-   return os << "Vector2D(x" << m.x << "," << m.y << ")";
+   return os << "Vector2D(x" << m.x << ",y" << m.y << ")";
 }
 
 inline bool operator==(const Vector2D& left, const Vector2D& right) {

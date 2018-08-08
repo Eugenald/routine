@@ -33,12 +33,12 @@ void CMazeController::setEndPoint(const Vector2D& point)
    mMazeModel->setEndPoint(point);
 }
 
-Vector2D& CMazeController::getStartPoint()
+const Vector2D& CMazeController::getStartPoint() const
 {
    return mMazeModel->getStartPoint();
 }
 
-Vector2D& CMazeController::getEndPoint()
+const Vector2D& CMazeController::getEndPoint() const
 {
    return mMazeModel->getEndPoint();
 }

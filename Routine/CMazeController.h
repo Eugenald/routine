@@ -18,8 +18,8 @@ public:
 
    void setStartPoint(const Vector2D& point);
    void setEndPoint(const Vector2D& point);
-   Vector2D& getStartPoint();
-   Vector2D& getEndPoint();
+   const Vector2D& getStartPoint() const;
+   const Vector2D& getEndPoint() const;
 
    void draw();
 
