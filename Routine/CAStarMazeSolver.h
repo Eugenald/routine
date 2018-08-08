@@ -18,6 +18,7 @@ private:
    Cell* sortAndGetNearestNode(std::vector<Cell*>* array);
    std::vector<Cell*> findNeighbours(const Cell& cell);
    bool checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node);
+   void restorePathToGoal(Cell* goal);
 
 private:
    std::shared_ptr<CMazeModel> mMaze;

@@ -38,8 +38,8 @@ void CAStarMazeSolver::solve()
 
       if (current->content == GOAL_SYMBOL)
       {
-         //construct path
          std::cout << "GOAL FOUND" << current->coordinate << std::endl;
+         restorePathToGoal(current);
          return;
       }
       else
@@ -138,4 +138,15 @@ bool CAStarMazeSolver::checkVectorOccurence(const std::vector<Cell*>& vec, const
    }
    
    return false;
+}
+
+void CAStarMazeSolver::restorePathToGoal(Cell* goal)
+{
+   Cell* currentNode = goal->cameFrom;
+
+   while (currentNode)
+   {
+      currentNode->content = '=';
+      currentNode = currentNode->cameFrom;
+   }
 }

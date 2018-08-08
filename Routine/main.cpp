@@ -6,19 +6,19 @@
 int main()
 {
    CMazeController& maze = CMazeController::getMazeController();
-   maze.createMaze(21, 10);
+   maze.createMaze(5, 5);
    maze.draw();
 
    maze.setStartPoint(Vector2D(0, 0));
-   maze.setEndPoint(Vector2D(20, 9));
+   maze.setEndPoint(Vector2D(4, 4));
 
    maze.draw();
 
    CAStarMazeSolver solver(maze.getMazeModel());
    solver.solve();
 
-   std::vector<Cell*> vec{ nullptr, nullptr };
-   std::cout << vec.size();
+   maze.draw();
+
 
    system("pause");
 }
