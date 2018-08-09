@@ -23,7 +23,7 @@ void CMazeVisualizer::draw()
 
    for (int i = 0; i < model->getWidth(); i++)
    {
-      std::cout << "=";
+      std::cout << "/";
    }
    std::cout << std::endl;
 }

@@ -38,13 +38,12 @@ void CAStarMazeSolver::solve()
 
       if (current->content == GOAL_SYMBOL)
       {
-         std::cout << "GOAL FOUND" << current->coordinate << std::endl;
+         std::cout << "GOAL FOUND " << current->coordinate << std::endl;
          restorePathToGoal(current);
          return;
       }
       else
       {
-         //closed.push_back(open.at(0));
          current->processed = true;
          open.erase(open.begin());
 
@@ -110,7 +109,7 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell)
    {
       if (node)
       {
-         std::cout << "findNeighbours " << node->coordinate << " processed=" << node->processed << std::endl;
+         //std::cout << "findNeighbours " << node->coordinate << " processed=" << node->processed << std::endl;
          if (checkAvailability(node)) v.push_back(node);
       }
    }
@@ -129,10 +128,10 @@ bool CAStarMazeSolver::checkVectorOccurence(const std::vector<Cell*>& vec, const
    }
    else
    {
-      std::cout << "vec.size()=" << vec.size() << std::endl;
+      //std::cout << "vec.size()=" << vec.size() << std::endl;
       for (auto i : vec)
       {
-         std::cout << "======>i.coor=" << i->coordinate << " node.coor=" << node.coordinate << std::endl;
+         //std::cout << "======>i.coor=" << i->coordinate << " node.coor=" << node.coordinate << std::endl;
          if (*i == node) return true;
       }
    }
@@ -146,6 +145,7 @@ void CAStarMazeSolver::restorePathToGoal(Cell* goal)
 
    while (currentNode)
    {
+      std::cout << "currentNode" << currentNode->coordinate << std::endl;
       currentNode->content = '=';
       currentNode = currentNode->cameFrom;
    }

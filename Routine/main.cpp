@@ -10,7 +10,7 @@ int main()
    maze.draw();
 
    maze.setStartPoint(Vector2D(0, 0));
-   maze.setEndPoint(Vector2D(4, 4));
+   maze.setEndPoint(Vector2D(0, 4));
 
    maze.draw();
 

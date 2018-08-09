@@ -42,7 +42,7 @@ char CMazeModel::getCellContent(const Vector2D& cell) const
 
 Cell* CMazeModel::getCell(const Vector2D& point)
 {
-   return getIndex(point) < mCellArray.size() ? &mCellArray[getIndex(point)] : nullptr;
+   return (getIndex(point) < mCellArray.size() && point.x >= 0 && point.y >= 0) ? &mCellArray[getIndex(point)] : nullptr;
 }
 
 void CMazeModel::setStartPoint(const Vector2D& point)
