@@ -5,6 +5,8 @@
 #include "CMazeModel.h"
 #include "CMazeVisualizer.h"
 
+class QWidget;
+
 class CMazeController
 {
 public:
@@ -21,13 +23,14 @@ public:
    const Vector2D& getStartPoint() const;
    const Vector2D& getEndPoint() const;
 
-   void draw();
+   void draw(QWidget* widget);
 
 private:
    CMazeController();
    ~CMazeController() = default;
 
    void fillMaze();
+
 
 private:
    std::shared_ptr<CMazeModel> mMazeModel;

@@ -1,5 +1,6 @@
-#include "CMazeController.h"
+#include <QWidget>
 #include <iostream>
+#include "CMazeController.h"
 
 CMazeController::CMazeController()
    : mMazeModel(nullptr)
@@ -16,6 +17,7 @@ void CMazeController::createMaze(const int width, const int height)
 {
    mMazeModel = std::make_shared<CMazeModel>(width, height);
    fillMaze();
+   CMazeVisualizer::getVizualizer().prepareWidgets(width, height);
 }
 
 std::shared_ptr<CMazeModel> CMazeController::getMazeModel()
@@ -54,7 +56,7 @@ void CMazeController::fillMaze()
    }
 }
 
-void CMazeController::draw()
+void CMazeController::draw(QWidget* widget)
 {
-   CMazeVisualizer::getVizualizer().draw();
+   CMazeVisualizer::getVizualizer().draw(widget);
 }

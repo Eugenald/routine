@@ -1,5 +1,9 @@
 #pragma once
 
+#include <QWidget>
+
+class QLabel;
+
 class CMazeVisualizer
 {
 public:
@@ -7,9 +11,14 @@ public:
    CMazeVisualizer& operator= (const CMazeVisualizer&) = delete;
 
    static CMazeVisualizer& getVizualizer();
-   void draw();
+   void prepareWidgets(const int width, const int height);
+   void draw(QWidget* widget);
 
 private:
-   CMazeVisualizer() = default;
+   CMazeVisualizer();
    ~CMazeVisualizer() = default;
+
+   QPixmap mDefaultTexture;
+
+   QVector<QLabel*> mLabelArray;
 };
