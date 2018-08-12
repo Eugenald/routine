@@ -1,10 +1,14 @@
 #include <QWidget>
+#include <QDebug>
+#include <QKeyEvent>
 #include <iostream>
 #include "CMazeController.h"
 
 CMazeController::CMazeController()
    : mMazeModel(nullptr)
+   , mInitialized(false)
 {
+    mKeyEventHandler = std::bind(&CMazeController::processKeyinput, this, std::placeholders::_1);
 }
 
 CMazeController& CMazeController::getMazeController()
@@ -13,7 +17,7 @@ CMazeController& CMazeController::getMazeController()
    return instance;
 }
 
-void CMazeController::createMaze(const int width, const int height)
+void CMazeController::createMaze(const uint16_t  width, const uint16_t  height)
 {
    mMazeModel = std::make_shared<CMazeModel>(width, height);
    fillMaze();
@@ -47,16 +51,34 @@ const Vector2D& CMazeController::getEndPoint() const
 
 void CMazeController::fillMaze()
 {
-   for (int y = 0; y < mMazeModel->getHeight(); y++)
+   for (uint8_t y = 0; y < mMazeModel->getHeight(); y++)
    {
-      for (int x = 0; x < mMazeModel->getWidth(); x++)
+      for (uint8_t x = 0; x < mMazeModel->getWidth(); x++)
       {
          mMazeModel->setCellContent(Vector2D(x,y), PATH_SYMBOL);
       }
    }
 }
 
+void CMazeController::processKeyinput(QKeyEvent* event)
+{
+    switch (event->key())
+    {
+        case Qt::Key_Left:
+            break;
+        case Qt::Key_Right:
+            break;
+        default:
+            break;
+    }
+}
+
 void CMazeController::draw(QWidget* widget)
 {
    CMazeVisualizer::getVizualizer().draw(widget);
+}
+
+std::function<void(QKeyEvent*)> CMazeController::getKeyEventHandler() const
+{
+    return mKeyEventHandler;
 }

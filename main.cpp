@@ -4,12 +4,16 @@
 #include "Vector2D.h"
 #include <QApplication>
 
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-
     CMazeController& maze = CMazeController::getMazeController();
+
+    w.setKeyEventCallback(maze.getKeyEventHandler());
+
     maze.createMaze(5, 5);
     maze.draw(&w);
 

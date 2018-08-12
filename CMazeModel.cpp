@@ -1,7 +1,7 @@
 #include <iostream>
 #include "CMazeModel.h"
 
-CMazeModel::CMazeModel(const int _width, const int _height)
+CMazeModel::CMazeModel(const uint8_t _width, const uint8_t _height)
    : mWidth(_width)
    , mHeight(_height)
    , mStartPoint()
@@ -11,9 +11,9 @@ CMazeModel::CMazeModel(const int _width, const int _height)
 {
    mCellArray.reserve(mWidth*mHeight);
 
-   for (int y = 0; y < mHeight; y++)
+   for (uint8_t y = 0; y < mHeight; y++)
    {
-      for (int x = 0; x < mWidth; x++)
+      for (uint8_t x = 0; x < mWidth; x++)
       {
          mCellArray.push_back(Cell('-', Vector2D(x, y)));
       }
@@ -48,7 +48,7 @@ Cell* CMazeModel::getCell(const Vector2D& point)
 void CMazeModel::setStartPoint(const Vector2D& point)
 {
    mStartPoint = point;
-   const int index = getIndex(mStartPoint);
+   const uint16_t index = getIndex(mStartPoint);
 
    if (mCellArray.size() > index)
    {
@@ -67,7 +67,7 @@ void CMazeModel::setStartPoint(const Vector2D& point)
 void CMazeModel::setEndPoint(const Vector2D& point)
 {
    mEndPoint = point;
-   const int index = getIndex(mEndPoint);
+   const uint16_t index = getIndex(mEndPoint);
 
    if (mCellArray.size() > index)
    {

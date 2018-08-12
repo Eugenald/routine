@@ -62,7 +62,7 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
           QLabel* pixmap = new QLabel;
           pixmap->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
 
-          pixmap->setPixmap(std::get<1>(mTextures[int(Texture::DEFAULT)]));
+          pixmap->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DEFAULT)]));
           mLabelArray.push_back(pixmap);
        }
     }
@@ -77,14 +77,14 @@ void CMazeVisualizer::draw(QWidget* widget)
 
     widget->show();
 
-   /*CMazeModel* model = CMazeController::getMazeController().getMazeModel().get();
+   CMazeModel* model = CMazeController::getMazeController().getMazeModel().get();
 
-   for (int y = 0; y < model->getHeight(); y++)
+   for (uint8_t y = 0; y < model->getHeight(); y++)
    {
-      for (int x = 0; x < model->getWidth(); x++)
+      for (uint8_t x = 0; x < model->getWidth(); x++)
       {
          std::cout << model->getCellContent(Vector2D(x,y));
       }
       std::cout << std::endl;
-   }*/
+   }
 }

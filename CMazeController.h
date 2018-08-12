@@ -1,6 +1,6 @@
 #pragma once
-
 #include <memory>
+#include <functional>
 #include "Vector2D.h"
 #include "CMazeModel.h"
 #include "CMazeVisualizer.h"
@@ -15,7 +15,7 @@ public:
 
    static CMazeController& getMazeController();
 
-   void createMaze(const int width, const int height);
+   void createMaze(const uint16_t  width, const uint16_t  height);
    std::shared_ptr<CMazeModel> getMazeModel();
 
    void setStartPoint(const Vector2D& point);
@@ -24,14 +24,17 @@ public:
    const Vector2D& getEndPoint() const;
 
    void draw(QWidget* widget);
+   std::function<void(QKeyEvent*)> getKeyEventHandler() const;
 
 private:
    CMazeController();
    ~CMazeController() = default;
 
    void fillMaze();
-
+   void processKeyinput(QKeyEvent* event);
 
 private:
    std::shared_ptr<CMazeModel> mMazeModel;
+   bool mInitialized;
+   std::function<void(QKeyEvent*)> mKeyEventHandler;
 };

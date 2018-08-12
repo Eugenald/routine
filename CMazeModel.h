@@ -43,7 +43,7 @@ inline bool operator != (Cell& left, Cell& right)
 class CMazeModel
 {
 public:
-   CMazeModel(const int _width, const int _height);
+   CMazeModel(const uint8_t _width, const uint8_t _height);
 
    int getWidth() const;
    int getHeight() const;
@@ -59,11 +59,11 @@ public:
    Cell* getCell(const Vector2D& point);
 
 private:
-   inline int getIndex(const Vector2D& point) const;
+   inline uint16_t getIndex(const Vector2D& point) const;
 
 private:
-   int mWidth;
-   int mHeight;
+   uint8_t mWidth;
+   uint8_t mHeight;
    std::vector<Cell> mCellArray;
    Vector2D mStartPoint;
    Vector2D mEndPoint;
@@ -72,7 +72,7 @@ private:
    bool mEndPointIsSet;
 };
 
-int CMazeModel::getIndex(const Vector2D& point) const
+uint16_t CMazeModel::getIndex(const Vector2D& point) const
 {
    return point.x + point.y * mWidth;
 }
