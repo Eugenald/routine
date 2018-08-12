@@ -7,5 +7,9 @@
         <file>images/right.png</file>
         <file>images/start.png</file>
         <file>images/up.png</file>
+	<file>images/resultUp.png</file>
+	<file>images/resultDown.png</file>
+	<file>images/resultLeft.png</file>
+	<file>images/resultRight.png</file>
     </qresource>
 </RCC>

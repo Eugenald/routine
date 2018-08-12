@@ -19,6 +19,7 @@ private:
    std::vector<Cell*> findNeighbours(const Cell& cell);
    bool checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node);
    void restorePathToGoal(Cell* goal);
+   char getDirTo(const Vector2D& child, const Vector2D& parent, const bool resultDir=false);
 
 private:
    std::shared_ptr<CMazeModel> mMaze;

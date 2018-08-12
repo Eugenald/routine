@@ -13,6 +13,10 @@ const QString UP_TEXTURE = ":/images/up.png";
 const QString DOWN_TEXTURE = ":/images/down.png";
 const QString LEFT_TEXTURE = ":/images/left.png";
 const QString RIGHT_TEXTURE = ":/images/right.png";
+const QString UP_RES_TEXTURE = ":/images/resultUp.png";
+const QString DOWN_RES_TEXTURE = ":/images/resultDown.png";
+const QString LEFT_RES_TEXTURE = ":/images/resultLeft.png";
+const QString RIGHT_RES_TEXTURE = ":/images/resultRight.png";
 
 CMazeVisualizer::CMazeVisualizer()
     : mDefaultTexture()
@@ -25,7 +29,11 @@ CMazeVisualizer::CMazeVisualizer()
                   {Texture::UP, QPixmap(), UP_TEXTURE},
                   {Texture::DOWN, QPixmap(), DOWN_TEXTURE},
                   {Texture::LEFT, QPixmap(), LEFT_TEXTURE},
-                  {Texture::RIGHT, QPixmap(), RIGHT_TEXTURE} };
+                  {Texture::RIGHT, QPixmap(), RIGHT_TEXTURE},
+                  {Texture::UP_RES, QPixmap(), UP_RES_TEXTURE},
+                  {Texture::DOWN_RES, QPixmap(), DOWN_RES_TEXTURE},
+                  {Texture::LEFT_RES, QPixmap(), LEFT_RES_TEXTURE},
+                  {Texture::RIGHT_RES, QPixmap(), RIGHT_RES_TEXTURE}, };
 
     auto textureLoading = [](QPixmap& pixmap, const QString& texturePath)
                             {
@@ -70,21 +78,63 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
 
 void CMazeVisualizer::draw(QWidget* widget)
 {
+
+    CMazeModel* model = CMazeController::getMazeController().getMazeModel().get();
+
     for (auto i : mLabelArray)
     {
         i->setParent(widget);
     }
 
-    widget->show();
-
-   CMazeModel* model = CMazeController::getMazeController().getMazeModel().get();
+    auto getIndex = [&](const Vector2D& point)
+                    {
+                       return point.x + point.y * model->getWidth();
+                    };
 
    for (uint8_t y = 0; y < model->getHeight(); y++)
    {
       for (uint8_t x = 0; x < model->getWidth(); x++)
       {
-         std::cout << model->getCellContent(Vector2D(x,y));
+          switch(model->getCellContent(Vector2D(x,y)))
+          {
+              case GOAL_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::GOAL)]));
+                  break;
+              case START_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::START)]));
+                  break;
+              case PATH_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DEFAULT)]));
+                  break;
+              case DIR_UP_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::UP)]));
+                  break;
+              case DIR_DOWN_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DOWN)]));
+                  break;
+              case DIR_LEFT_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::LEFT)]));
+                  break;
+              case DIR_RIGHT_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::RIGHT)]));
+                  break;
+              case DIR_UP_RES_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::UP_RES)]));
+                  break;
+              case DIR_DOWN_RES_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DOWN_RES)]));
+                  break;
+              case DIR_LEFT_RES_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::LEFT_RES)]));
+                  break;
+              case DIR_RIGHT_RES_SYMBOL:
+                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::RIGHT_RES)]));
+                  break;
+              default:
+                  break;
+          }
       }
-      std::cout << std::endl;
    }
+
+   widget->show();
 }

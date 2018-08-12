@@ -4,7 +4,7 @@
 
 class QLabel;
 
-enum class Texture: char{ DEFAULT, GOAL, START, UP, DOWN, LEFT, RIGHT };
+enum class Texture: char{ DEFAULT, GOAL, START, UP, DOWN, LEFT, RIGHT, UP_RES, DOWN_RES, LEFT_RES, RIGHT_RES };
 
 class CMazeVisualizer
 {

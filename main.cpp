@@ -15,13 +15,14 @@ int main(int argc, char *argv[])
     w.setKeyEventCallback(maze.getKeyEventHandler());
 
     maze.createMaze(5, 5);
-    maze.draw(&w);
 
     maze.setStartPoint(Vector2D(0, 0));
-    maze.setEndPoint(Vector2D(0, 4));
+    maze.setEndPoint(Vector2D(4, 4));
 
-    //CAStarMazeSolver solver(maze.getMazeModel());
-    //solver.solve();
+    CAStarMazeSolver solver(maze.getMazeModel());
+    solver.solve();
+
+    maze.draw(&w);
 
     return a.exec();
 }
