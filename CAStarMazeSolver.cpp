@@ -26,21 +26,18 @@ void CAStarMazeSolver::solve()
 
    std::vector<Cell*> open = { startCell };
 
-   //int i = 5;
    while (open.size() > 0)
-   //while (i > 0)
    {
-      //i--;
       Cell* current = sortAndGetNearestNode(&open);
 
-      /*if (current->content == GOAL_SYMBOL)
+      if (current->content == GOAL_SYMBOL)
       {
          std::cout << "GOAL FOUND " << current->coordinate << std::endl;
          restorePathToGoal(current);
          return;
       }
       else
-      {*/
+      {
          current->processed = true;
          open.erase(open.begin());
 
@@ -59,20 +56,15 @@ void CAStarMazeSolver::solve()
                std::cout << "WRITE TO VECTOR" << std::endl;
                open.push_back(i);
             }
-            else if (currentCost < i->totalCost)
+
+            if (currentCost < i->totalCost)
             {
                std::cout << "PROCESS" << std::endl;
                i->totalCost = currentCost;
 
                if (i->content != GOAL_SYMBOL)
                {
-                   i->content = getDirTo(i->coordinate, current->coordinate);
-               }
-               else
-               {
-                   std::cout << "GOAL FOUND " << current->coordinate << std::endl;
-                   restorePathToGoal(current);
-                   return;
+                   i->content = getDirTo(current->coordinate, i->coordinate);
                }
             }
 
@@ -80,10 +72,8 @@ void CAStarMazeSolver::solve()
             std::cout << open.size() << std::endl;
             std::cout << "=====================================" << std::endl;
          }
-      //}
+      }
    }
-
-   
 }
 
 float CAStarMazeSolver::calculateDistance(const Vector2D& start, const Vector2D& end)
@@ -95,6 +85,12 @@ Cell* CAStarMazeSolver::sortAndGetNearestNode(std::vector<Cell*>* array)
 {
    std::sort(array->begin(), array->end(), [](Cell* s1, Cell* s2) -> bool
                                          { return s1->totalCost < s2->totalCost; } );
+   /*std::cout << "sortAndGetNearestNode " << std::endl;
+   for (auto i : *array)
+   {
+       std::cout << i->coordinate << " cost=" << i->totalCost << std::endl;
+   }*/
+
    return array->at(0);
 }
 
@@ -154,8 +150,8 @@ void CAStarMazeSolver::restorePathToGoal(Cell* goal)
    {
        if (currentNode->cameFrom != nullptr)
        {
-           std::cout << "currentNode" << currentNode->coordinate << std::endl;
-           currentNode->content = getDirTo(currentNode->coordinate, currentNode->cameFrom->coordinate, true);
+           std::cout << "currentNode=" << currentNode->coordinate << " cameFrom=" << currentNode->cameFrom->coordinate << std::endl;
+           currentNode->content = getDirTo(currentNode->cameFrom->coordinate, currentNode->coordinate, true);
 
        }
        currentNode = currentNode->cameFrom;
@@ -170,19 +166,19 @@ char CAStarMazeSolver::getDirTo(const Vector2D& from, const Vector2D& to, const 
 
     if (diff.x == 1 && diff.y == 0)
     {
-        result = resultDir ? DIR_UP_RES_SYMBOL : DIR_UP_SYMBOL;
+        result = resultDir ? DIR_LEFT_RES_SYMBOL : DIR_LEFT_SYMBOL;
     }
     else if (diff.x == -1 && diff.y == 0)
     {
-        result = resultDir ? DIR_DOWN_RES_SYMBOL : DIR_DOWN_SYMBOL;
+        result = resultDir ? DIR_RIGHT_RES_SYMBOL : DIR_RIGHT_SYMBOL;
     }
     else if (diff.x == 0 && diff.y == 1)
     {
-        result = resultDir ? DIR_LEFT_RES_SYMBOL : DIR_LEFT_SYMBOL;
+        result = resultDir ? DIR_UP_RES_SYMBOL : DIR_UP_SYMBOL;
     }
     else if (diff.x == 0 && diff.y == -1)
     {
-        result = resultDir ? DIR_RIGHT_RES_SYMBOL : DIR_RIGHT_SYMBOL;
+        result = resultDir ? DIR_DOWN_RES_SYMBOL : DIR_DOWN_SYMBOL;
     }
 
     return result;

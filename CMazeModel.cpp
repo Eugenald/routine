@@ -72,7 +72,7 @@ void CMazeModel::setEndPoint(const Vector2D& point)
    if (mCellArray.size() > index)
    {
       mEndPointIsSet = true;
-      mCellArray[getIndex(mEndPoint)].content = GOAL_SYMBOL;
+      mCellArray[index].content = GOAL_SYMBOL;
       std::cout << "CMazeModel::setEndPoint X = " << mEndPoint.x << " Y = " << mEndPoint.y << std::endl;
       std::cout << "CMazeModel::setEndPoint index = " << getIndex(mEndPoint) << std::endl;
    }

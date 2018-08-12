@@ -14,10 +14,10 @@ int main(int argc, char *argv[])
 
     w.setKeyEventCallback(maze.getKeyEventHandler());
 
-    maze.createMaze(5, 5);
+    maze.createMaze(21, 21);
 
     maze.setStartPoint(Vector2D(0, 0));
-    maze.setEndPoint(Vector2D(4, 4));
+    maze.setEndPoint(Vector2D(15, 17));
 
     CAStarMazeSolver solver(maze.getMazeModel());
     solver.solve();
