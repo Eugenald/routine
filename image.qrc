@@ -1,5 +1,11 @@
 <RCC>
-    <qresource prefix="/image">
-        <file>button.png</file>
+    <qresource prefix="/">
+        <file>images/button.png</file>
+        <file>images/down.png</file>
+        <file>images/goal.png</file>
+        <file>images/left.png</file>
+        <file>images/right.png</file>
+        <file>images/start.png</file>
+        <file>images/up.png</file>
     </qresource>
 </RCC>

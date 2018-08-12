@@ -6,18 +6,42 @@
 
 #define CELLSIZE 40
 #define MARGIN 5
-const QString FILEPATH = ":/image/button.png";
+const QString DEFAULT_TEXTURE = ":/images/button.png";
+const QString GOAL_TEXTURE = ":/images/goal.png";
+const QString START_TEXTURE = ":/images/start.png";
+const QString UP_TEXTURE = ":/images/up.png";
+const QString DOWN_TEXTURE = ":/images/down.png";
+const QString LEFT_TEXTURE = ":/images/left.png";
+const QString RIGHT_TEXTURE = ":/images/right.png";
 
 CMazeVisualizer::CMazeVisualizer()
-    :mDefaultTexture()
+    : mDefaultTexture()
+    , mTextures()
+    , mLabelArray()
 {
-    if(mDefaultTexture.load(FILEPATH))
+    mTextures = { {Texture::DEFAULT, QPixmap(), DEFAULT_TEXTURE},
+                  {Texture::GOAL, QPixmap(), GOAL_TEXTURE},
+                  {Texture::START, QPixmap(), START_TEXTURE},
+                  {Texture::UP, QPixmap(), UP_TEXTURE},
+                  {Texture::DOWN, QPixmap(), DOWN_TEXTURE},
+                  {Texture::LEFT, QPixmap(), LEFT_TEXTURE},
+                  {Texture::RIGHT, QPixmap(), RIGHT_TEXTURE} };
+
+    auto textureLoading = [](QPixmap& pixmap, const QString& texturePath)
+                            {
+                              if(pixmap.load(texturePath))
+                              {
+                                  pixmap = pixmap.scaled(QSize(CELLSIZE, CELLSIZE), Qt::KeepAspectRatio);
+                              }
+                              else
+                              {
+                                  qDebug() << "CMazeVisualizer::CMazeVisualizer() Error reading file " << texturePath;
+                              }
+                            };
+
+    for (auto& i : mTextures)
     {
-        mDefaultTexture = mDefaultTexture.scaled(QSize(CELLSIZE, CELLSIZE), Qt::KeepAspectRatio);
-    }
-    else
-    {
-        qDebug() << "CMazeVisualizer::CMazeVisualizer() Error reading file";
+        textureLoading(std::get<1>(i), std::get<2>(i));
     }
 }
 
@@ -31,16 +55,17 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
 {
     mLabelArray.reserve(width*height);
 
-    /*for (int y = 0; y < height; y++)
+    for (int y = 0; y < height; y++)
     {
        for (int x = 0; x < width; x++)
-       {*/
+       {
           QLabel* pixmap = new QLabel;
-          pixmap->setGeometry(QRect(QPoint(0, 0), QSize(40,40)));
-          pixmap->setPixmap(mDefaultTexture);
+          pixmap->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
+
+          pixmap->setPixmap(std::get<1>(mTextures[int(Texture::DEFAULT)]));
           mLabelArray.push_back(pixmap);
-       /*}
-    }*/
+       }
+    }
 }
 
 void CMazeVisualizer::draw(QWidget* widget)

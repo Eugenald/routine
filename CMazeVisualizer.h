@@ -4,6 +4,8 @@
 
 class QLabel;
 
+enum class Texture: char{ DEFAULT, GOAL, START, UP, DOWN, LEFT, RIGHT };
+
 class CMazeVisualizer
 {
 public:
@@ -19,6 +21,7 @@ private:
    ~CMazeVisualizer() = default;
 
    QPixmap mDefaultTexture;
+   QVector<std::tuple<Texture, QPixmap, QString>> mTextures;
 
    QVector<QLabel*> mLabelArray;
 };
