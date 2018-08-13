@@ -5,3 +5,4 @@ Routine/x64/
 *.suo
 *.opendb
 *.db
+*.user
