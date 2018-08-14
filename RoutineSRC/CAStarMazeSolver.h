@@ -6,21 +6,20 @@
 class CAStarMazeSolver
 {
 public:
-   CAStarMazeSolver(std::shared_ptr<CMazeModel> maze);
+   explicit CAStarMazeSolver(CMazeController& mazeCtrl);
    ~CAStarMazeSolver() = default;
 
    void solve();
 
 private:
-   CAStarMazeSolver() = default;
+   float calculateDistance(const Vector2D& start, const Vector2D& end);   
+   std::vector<Cell*> findNeighbours(const Cell& cell) const;
 
-   float calculateDistance(const Vector2D& start, const Vector2D& end);
-   Cell* sortAndGetNearestNode(std::vector<Cell*>* array);
-   std::vector<Cell*> findNeighbours(const Cell& cell);
-   bool checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node);
-   void restorePathToGoal(Cell* goal);
-   char getDirTo(const Vector2D& child, const Vector2D& parent, const bool resultDir=false);
+   static Cell* sortAndGetNearestNode(std::vector<Cell*>& array);
+   static bool checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node);
+   static void restorePathToGoal(Cell* goal);
+   static char getDirTo(const Vector2D& child, const Vector2D& parent, const bool resultDir=false);
 
 private:
-   std::shared_ptr<CMazeModel> mMaze;
+   CMazeController& mMazeCtrl;
 };

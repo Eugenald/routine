@@ -23,17 +23,17 @@ CMazeVisualizer::CMazeVisualizer()
     , mTextures()
     , mLabelArray()
 {
-    mTextures = { {Texture::DEFAULT, QPixmap(), DEFAULT_TEXTURE},
-                  {Texture::GOAL, QPixmap(), GOAL_TEXTURE},
-                  {Texture::START, QPixmap(), START_TEXTURE},
-                  {Texture::UP, QPixmap(), UP_TEXTURE},
-                  {Texture::DOWN, QPixmap(), DOWN_TEXTURE},
-                  {Texture::LEFT, QPixmap(), LEFT_TEXTURE},
-                  {Texture::RIGHT, QPixmap(), RIGHT_TEXTURE},
-                  {Texture::UP_RES, QPixmap(), UP_RES_TEXTURE},
-                  {Texture::DOWN_RES, QPixmap(), DOWN_RES_TEXTURE},
-                  {Texture::LEFT_RES, QPixmap(), LEFT_RES_TEXTURE},
-                  {Texture::RIGHT_RES, QPixmap(), RIGHT_RES_TEXTURE}, };
+    mTextures = { {Texture::DEFAULT, QPixmap(), DEFAULT_TEXTURE, '0'},
+                  {Texture::GOAL, QPixmap(), GOAL_TEXTURE, GOAL_SYMBOL},
+                  {Texture::START, QPixmap(), START_TEXTURE, START_SYMBOL},
+                  {Texture::UP, QPixmap(), UP_TEXTURE, DIR_UP_SYMBOL},
+                  {Texture::DOWN, QPixmap(), DOWN_TEXTURE, DIR_DOWN_SYMBOL},
+                  {Texture::LEFT, QPixmap(), LEFT_TEXTURE, DIR_LEFT_SYMBOL},
+                  {Texture::RIGHT, QPixmap(), RIGHT_TEXTURE, DIR_RIGHT_SYMBOL},
+                  {Texture::UP_RES, QPixmap(), UP_RES_TEXTURE, DIR_UP_RES_SYMBOL},
+                  {Texture::DOWN_RES, QPixmap(), DOWN_RES_TEXTURE, DIR_DOWN_RES_SYMBOL},
+                  {Texture::LEFT_RES, QPixmap(), LEFT_RES_TEXTURE, DIR_LEFT_RES_SYMBOL},
+                  {Texture::RIGHT_RES, QPixmap(), RIGHT_RES_TEXTURE, DIR_RIGHT_RES_SYMBOL} };
 
     auto textureLoading = [](QPixmap& pixmap, const QString& texturePath)
                             {
@@ -95,44 +95,12 @@ void CMazeVisualizer::draw(QWidget* widget)
    {
       for (uint8_t x = 0; x < model->getWidth(); x++)
       {
-          switch(model->getCellContent(Vector2D(x,y)))
-          {
-              case GOAL_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::GOAL)]));
-                  break;
-              case START_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::START)]));
-                  break;
-              case PATH_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DEFAULT)]));
-                  break;
-              case DIR_UP_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::UP)]));
-                  break;
-              case DIR_DOWN_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DOWN)]));
-                  break;
-              case DIR_LEFT_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::LEFT)]));
-                  break;
-              case DIR_RIGHT_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::RIGHT)]));
-                  break;
-              case DIR_UP_RES_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::UP_RES)]));
-                  break;
-              case DIR_DOWN_RES_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DOWN_RES)]));
-                  break;
-              case DIR_LEFT_RES_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::LEFT_RES)]));
-                  break;
-              case DIR_RIGHT_RES_SYMBOL:
-                  mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::RIGHT_RES)]));
-                  break;
-              default:
-                  break;
-          }
+          auto iter = std::find_if (mTextures.begin(), mTextures.end(), [&](const std::tuple<Texture, QPixmap, QString, char>& tuple)
+              {
+                  return std::get<char>(tuple) == model->getCellContent(Vector2D(x,y));
+              } );
+
+          mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(*iter));
       }
    }
 

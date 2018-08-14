@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     maze.setStartPoint(Vector2D(0, 0));
     maze.setEndPoint(Vector2D(15, 17));
 
-    CAStarMazeSolver solver(maze.getMazeModel());
+    CAStarMazeSolver solver(maze);
     solver.solve();
 
     maze.draw(&w);

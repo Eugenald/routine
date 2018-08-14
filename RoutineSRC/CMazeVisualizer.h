@@ -21,7 +21,7 @@ private:
    ~CMazeVisualizer() = default;
 
    QPixmap mDefaultTexture;
-   QVector<std::tuple<Texture, QPixmap, QString>> mTextures;
+   QVector<std::tuple<Texture, QPixmap, QString, char>> mTextures;
 
    QVector<QLabel*> mLabelArray;
 };
