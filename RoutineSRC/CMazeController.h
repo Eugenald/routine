@@ -4,13 +4,14 @@
 #include "Vector2D.h"
 #include "CMazeModel.h"
 #include "CMazeVisualizer.h"
+#include "CMazeSolutionStorage.h"
 
 class QWidget;
 
 class CMazeController
 {
 public:
-   CMazeController(const CMazeController&) = delete;
+   explicit CMazeController(const CMazeController&) = delete;
    CMazeController& operator= (const CMazeController&) = delete;
 
    static CMazeController& getMazeController();
@@ -35,6 +36,7 @@ private:
 
 private:
    std::shared_ptr<CMazeModel> mMazeModel;
+   std::shared_ptr<CMazeSolutionStorage> mMazeSolutionStorage;
    bool mInitialized;
    std::function<void(QKeyEvent*)> mKeyEventHandler;
 };

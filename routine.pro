@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    RoutineGoogleTest \
+    #RoutineGoogleTest \
     RoutineSRC

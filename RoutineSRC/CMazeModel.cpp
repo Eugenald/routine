@@ -15,7 +15,7 @@ CMazeModel::CMazeModel(const uint8_t _width, const uint8_t _height)
    {
       for (uint8_t x = 0; x < mWidth; x++)
       {
-         mCellArray.push_back(Cell('-', Vector2D(x, y)));
+         mCellArray.push_back(Cell(DEFAULT_SYMBOL, Vector2D(x, y)));
       }
    }
 }

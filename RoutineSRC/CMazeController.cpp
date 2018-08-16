@@ -19,6 +19,7 @@ CMazeController& CMazeController::getMazeController()
 
 void CMazeController::createMaze(const uint16_t  width, const uint16_t  height)
 {
+   mMazeSolutionStorage = std::make_shared<CMazeSolutionStorage>(width + height);
    mMazeModel = std::make_shared<CMazeModel>(width, height);
    fillMaze();
    CMazeVisualizer::getVizualizer().prepareWidgets(width, height);

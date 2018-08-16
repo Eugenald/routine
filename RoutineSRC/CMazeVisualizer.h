@@ -9,7 +9,7 @@ enum class Texture: char{ DEFAULT, GOAL, START, UP, DOWN, LEFT, RIGHT, UP_RES, D
 class CMazeVisualizer
 {
 public:
-   CMazeVisualizer(const CMazeVisualizer&) = delete;
+   explicit CMazeVisualizer(const CMazeVisualizer&) = delete;
    CMazeVisualizer& operator= (const CMazeVisualizer&) = delete;
 
    static CMazeVisualizer& getVizualizer();

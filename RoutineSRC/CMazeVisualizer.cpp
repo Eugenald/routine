@@ -68,8 +68,8 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
        for (int x = 0; x < width; x++)
        {
           QLabel* pixmap = new QLabel;
-          pixmap->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
 
+          pixmap->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
           pixmap->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DEFAULT)]));
           mLabelArray.push_back(pixmap);
        }

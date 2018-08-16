@@ -4,6 +4,7 @@
 #include <limits>
 #include "Vector2D.h"
 
+const char DEFAULT_SYMBOL = '-';
 const char GOAL_SYMBOL = '1';
 const char START_SYMBOL = '*';
 const char PATH_SYMBOL = '0';
@@ -47,7 +48,7 @@ inline bool operator != (Cell& left, Cell& right)
 class CMazeModel
 {
 public:
-   CMazeModel(const uint8_t _width, const uint8_t _height);
+   explicit CMazeModel(const uint8_t _width, const uint8_t _height);
 
    int getWidth() const;
    int getHeight() const;
