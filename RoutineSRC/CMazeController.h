@@ -23,6 +23,7 @@ public:
    void setEndPoint(const Vector2D& point);
    const Vector2D& getStartPoint() const;
    const Vector2D& getEndPoint() const;
+   void setObstacles(const std::vector<Vector2D>& cells);
 
    void draw();
    std::function<void(QKeyEvent*)> getKeyEventHandler() const;
@@ -38,7 +39,7 @@ private:
    std::shared_ptr<CMazeSolutionStorage> mMazeSolutionStorage;
    std::shared_ptr<QWidget*> mWidget;
    bool mInitialized;
-   int mAlgorithmSteps;
+   uint32_t mAlgorithmSteps;
    std::function<void(QKeyEvent*)> mKeyEventHandler;
    std::function<void()> mAlgorithmIterationCallback;
    CMazeVisualizer mVisualizer;

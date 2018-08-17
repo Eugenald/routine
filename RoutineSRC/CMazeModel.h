@@ -16,6 +16,7 @@ const char DIR_UP_RES_SYMBOL = 'U';
 const char DIR_DOWN_RES_SYMBOL = 'D';
 const char DIR_LEFT_RES_SYMBOL = 'L';
 const char DIR_RIGHT_RES_SYMBOL = 'R';
+const char OBSTACLE_SYMBOL = 'X';
 
 struct Cell
 {

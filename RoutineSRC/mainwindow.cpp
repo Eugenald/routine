@@ -4,23 +4,23 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+   QMainWindow(parent),
+   ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+   ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+   delete ui;
 }
 
 void MainWindow::setKeyEventCallback(const std::function<void(QKeyEvent*)>& function)
 {
-    mKeyInputCallback = function;
+   mKeyInputCallback = function;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    mKeyInputCallback(event);
+   mKeyInputCallback(event);
 }

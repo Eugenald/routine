@@ -46,7 +46,7 @@ Cell* CMazeModel::getCell(const Vector2D& point)
 }
 
 void CMazeModel::setStartPoint(const Vector2D& point)
-{
+   {
    mStartPoint = point;
    const uint16_t index = getIndex(mStartPoint);
 

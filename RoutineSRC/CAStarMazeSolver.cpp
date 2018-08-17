@@ -100,7 +100,7 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
 
    auto checkAvailability = [](Cell* cell) -> bool
                             {
-                              return cell != nullptr && cell->processed == false;
+                              return cell != nullptr && cell->processed == false && cell->content != OBSTACLE_SYMBOL;
                             };
 
    std::vector<Cell*> v;

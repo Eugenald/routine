@@ -3,28 +3,28 @@
 
 CMazeSolutionStorage::CMazeSolutionStorage(uint16_t expectedAmount /*=0*/)
 {
-    if (expectedAmount != 0)
-    {
-        mModelStorage.reserve(expectedAmount);
-    }
+   if (expectedAmount != 0)
+   {
+      mModelStorage.reserve(expectedAmount);
+   }
 }
 
-const CMazeModel* CMazeSolutionStorage::getModelAt(const uint16_t index) const
+const CMazeModel* CMazeSolutionStorage::getModelAt(const uint32_t index) const
 {
-    return index < mModelStorage.size() ? &mModelStorage[index] : nullptr;
+   return index < mModelStorage.size() ? &mModelStorage[index] : nullptr;
 }
 
-int CMazeSolutionStorage::getStorageSize() const
+uint32_t CMazeSolutionStorage::getStorageSize() const
 {
-    return mModelStorage.size();
+   return mModelStorage.size();
 }
 
 void CMazeSolutionStorage::pushBackModel(const CMazeModel& model)
 {
-    mModelStorage.push_back(model);
+   mModelStorage.push_back(model);
 }
 
 void CMazeSolutionStorage::clearStorage()
 {
-    mModelStorage.clear();
+   mModelStorage.clear();
 }

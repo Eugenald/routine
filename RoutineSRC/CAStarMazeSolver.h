@@ -13,7 +13,7 @@ public:
    void setAlgorithmIterationCallback(std::function<void()> callback);
 
 private:
-   float calculateDistance(const Vector2D& start, const Vector2D& end);   
+   float calculateDistance(const Vector2D& start, const Vector2D& end);
    std::vector<Cell*> findNeighbours(const Cell& cell) const;
 
    static Cell* sortAndGetNearestNode(std::vector<Cell*>& array);

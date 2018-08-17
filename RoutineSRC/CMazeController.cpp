@@ -6,13 +6,13 @@
 
 CMazeController::CMazeController(QWidget* widget)
    : mMazeModel(nullptr)
-   , mInitialized(false)
    , mWidget(std::make_shared<QWidget*>(widget))
+   , mInitialized(false)
    , mAlgorithmSteps(0)
    , mVisualizer(*this)
 {
-    mKeyEventHandler = std::bind(&CMazeController::processKeyinput, this, std::placeholders::_1);
-    mAlgorithmIterationCallback =  std::bind(&CMazeController::processAlgorithmIteration, this);
+   mKeyEventHandler = std::bind(&CMazeController::processKeyinput, this, std::placeholders::_1);
+   mAlgorithmIterationCallback =  std::bind(&CMazeController::processAlgorithmIteration, this);
 }
 
 void CMazeController::createMaze(const uint16_t  width, const uint16_t  height)
@@ -48,6 +48,14 @@ const Vector2D& CMazeController::getEndPoint() const
    return mMazeModel->getEndPoint();
 }
 
+void CMazeController::setObstacles(const std::vector<Vector2D>& cells)
+{
+   for (auto cell : cells)
+   {
+      mMazeModel->setCellContent(cell, OBSTACLE_SYMBOL);
+   }
+}
+
 void CMazeController::fillMaze()
 {
    for (uint8_t y = 0; y < mMazeModel->getHeight(); y++)
@@ -61,35 +69,38 @@ void CMazeController::fillMaze()
 
 void CMazeController::processKeyinput(QKeyEvent* event)
 {
-    switch (event->key())
-    {
-        case Qt::Key_Left:
-            if ((mAlgorithmSteps - 1) >= 0 && (mAlgorithmSteps - 1) < mMazeSolutionStorage->getStorageSize())
-            {
-                mAlgorithmSteps--;
-                mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
-            }
-            break;
-        case Qt::Key_Right:
-            if ((mAlgorithmSteps + 1) >= 0 && (mAlgorithmSteps + 1) < mMazeSolutionStorage->getStorageSize())
-            {
-                mAlgorithmSteps++;
-                mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
-            }
-            break;
-        case Qt::Key_Up:
-            mAlgorithmSteps = 0;
+   const uint32_t prevStep = mAlgorithmSteps - 1;
+   const uint32_t nextStep = mAlgorithmSteps - 1;
+
+   switch (event->key())
+   {
+      case Qt::Key_Left:
+         if (prevStep < mMazeSolutionStorage->getStorageSize())
+         {
+            mAlgorithmSteps--;
             mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
-            break;
-        default:
-            break;
-    }
+         }
+         break;
+      case Qt::Key_Right:
+         if (nextStep < mMazeSolutionStorage->getStorageSize())
+         {
+            mAlgorithmSteps++;
+            mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
+         }
+         break;
+      case Qt::Key_Up:
+         mAlgorithmSteps = 0;
+         mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
+         break;
+      default:
+         break;
+   }
 }
 
 void CMazeController::processAlgorithmIteration()
 {
-    mMazeSolutionStorage->pushBackModel(*mMazeModel);
-    qDebug() << "CMazeController::processAlgorithmIteration() storageSize=" << mMazeSolutionStorage->getStorageSize();
+   mMazeSolutionStorage->pushBackModel(*mMazeModel);
+   qDebug() << "CMazeController::processAlgorithmIteration() storageSize=" << mMazeSolutionStorage->getStorageSize();
 }
 
 void CMazeController::draw()
@@ -99,10 +110,10 @@ void CMazeController::draw()
 
 std::function<void(QKeyEvent*)> CMazeController::getKeyEventHandler() const
 {
-    return mKeyEventHandler;
+   return mKeyEventHandler;
 }
 
 std::function<void()>& CMazeController::getAlgorithmIterationCallback()
 {
-    return mAlgorithmIterationCallback;
+   return mAlgorithmIterationCallback;
 }

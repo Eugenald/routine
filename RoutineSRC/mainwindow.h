@@ -10,20 +10,20 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+   explicit MainWindow(QWidget *parent = 0);
+   ~MainWindow();
 
-    void setKeyEventCallback(const std::function<void(QKeyEvent*)>& function);
+   void setKeyEventCallback(const std::function<void(QKeyEvent*)>& function);
 
 protected:
-    virtual void keyPressEvent(QKeyEvent* event);
+   virtual void keyPressEvent(QKeyEvent* event);
 
 private:
-    Ui::MainWindow *ui;
-    std::function<void(QKeyEvent*)> mKeyInputCallback;
+   Ui::MainWindow *ui;
+   std::function<void(QKeyEvent*)> mKeyInputCallback;
 };
 
 #endif // MAINWINDOW_H
