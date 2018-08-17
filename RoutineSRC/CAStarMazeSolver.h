@@ -10,6 +10,7 @@ public:
    ~CAStarMazeSolver() = default;
 
    void solve();
+   void setAlgorithmIterationCallback(std::function<void()> callback);
 
 private:
    float calculateDistance(const Vector2D& start, const Vector2D& end);   
@@ -22,4 +23,5 @@ private:
 
 private:
    CMazeController& mMazeCtrl;
+   std::function<void()> mIterationCallback;
 };

@@ -14,6 +14,11 @@ const CMazeModel* CMazeSolutionStorage::getModelAt(const uint16_t index) const
     return index < mModelStorage.size() ? &mModelStorage[index] : nullptr;
 }
 
+int CMazeSolutionStorage::getStorageSize() const
+{
+    return mModelStorage.size();
+}
+
 void CMazeSolutionStorage::pushBackModel(const CMazeModel& model)
 {
     mModelStorage.push_back(model);

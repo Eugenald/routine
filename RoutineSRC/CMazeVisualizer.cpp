@@ -18,8 +18,9 @@ const QString DOWN_RES_TEXTURE = ":/images/resultDown.png";
 const QString LEFT_RES_TEXTURE = ":/images/resultLeft.png";
 const QString RIGHT_RES_TEXTURE = ":/images/resultRight.png";
 
-CMazeVisualizer::CMazeVisualizer()
-    : mDefaultTexture()
+CMazeVisualizer::CMazeVisualizer(CMazeController& mazeCtrl)
+    : mMazeCtrl(mazeCtrl)
+    , mDefaultTexture()
     , mTextures()
     , mLabelArray()
 {
@@ -53,12 +54,6 @@ CMazeVisualizer::CMazeVisualizer()
     }
 }
 
-CMazeVisualizer& CMazeVisualizer::getVizualizer()
-{
-   static CMazeVisualizer instance;
-   return instance;
-}
-
 void CMazeVisualizer::prepareWidgets(const int width, const int height)
 {
     mLabelArray.reserve(width*height);
@@ -76,11 +71,13 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
     }
 }
 
-void CMazeVisualizer::draw(QWidget* widget)
+void CMazeVisualizer::draw(QWidget* widget) const
 {
+    draw(widget, mMazeCtrl.getMazeModel().get());
+}
 
-    CMazeModel* model = CMazeController::getMazeController().getMazeModel().get();
-
+void CMazeVisualizer::draw(QWidget* widget, const CMazeModel* model) const
+{
     for (auto i : mLabelArray)
     {
         i->setParent(widget);

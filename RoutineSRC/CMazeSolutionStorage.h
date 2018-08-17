@@ -10,6 +10,7 @@ public:
     explicit CMazeSolutionStorage(uint16_t expectedAmount = 0);
 
     const CMazeModel* getModelAt(const uint16_t index) const;
+    int getStorageSize() const;
     void pushBackModel(const CMazeModel& model);
     void clearStorage();
 

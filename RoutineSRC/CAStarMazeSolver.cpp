@@ -30,6 +30,7 @@ void CAStarMazeSolver::solve()
       {
          std::cout << "GOAL FOUND " << current->coordinate << std::endl;
          restorePathToGoal(current);
+         mIterationCallback();
          return;
       }
 
@@ -66,6 +67,8 @@ void CAStarMazeSolver::solve()
          std::cout << cellsForAnalysis.size() << std::endl;
          std::cout << "=====================================" << std::endl;
       }
+
+      mIterationCallback();
    }
 }
 
@@ -111,6 +114,11 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
    }
 
    return v;
+}
+
+void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void()> callback)
+{
+    mIterationCallback = callback;
 }
 
 bool CAStarMazeSolver::checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node)

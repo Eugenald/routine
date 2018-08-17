@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    CMazeController& maze = CMazeController::getMazeController();
+    CMazeController maze(&w);
 
     w.setKeyEventCallback(maze.getKeyEventHandler());
 
@@ -20,9 +20,10 @@ int main(int argc, char *argv[])
     maze.setEndPoint(Vector2D(15, 17));
 
     CAStarMazeSolver solver(maze);
+    solver.setAlgorithmIterationCallback(maze.getAlgorithmIterationCallback());
     solver.solve();
 
-    maze.draw(&w);
+    maze.draw();
 
     return a.exec();
 }

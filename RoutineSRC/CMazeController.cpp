@@ -4,17 +4,15 @@
 #include <iostream>
 #include "CMazeController.h"
 
-CMazeController::CMazeController()
+CMazeController::CMazeController(QWidget* widget)
    : mMazeModel(nullptr)
    , mInitialized(false)
+   , mWidget(std::make_shared<QWidget*>(widget))
+   , mAlgorithmSteps(0)
+   , mVisualizer(*this)
 {
     mKeyEventHandler = std::bind(&CMazeController::processKeyinput, this, std::placeholders::_1);
-}
-
-CMazeController& CMazeController::getMazeController()
-{
-   static CMazeController instance;
-   return instance;
+    mAlgorithmIterationCallback =  std::bind(&CMazeController::processAlgorithmIteration, this);
 }
 
 void CMazeController::createMaze(const uint16_t  width, const uint16_t  height)
@@ -22,7 +20,7 @@ void CMazeController::createMaze(const uint16_t  width, const uint16_t  height)
    mMazeSolutionStorage = std::make_shared<CMazeSolutionStorage>(width + height);
    mMazeModel = std::make_shared<CMazeModel>(width, height);
    fillMaze();
-   CMazeVisualizer::getVizualizer().prepareWidgets(width, height);
+   mVisualizer.prepareWidgets(width, height);
 }
 
 std::shared_ptr<CMazeModel> CMazeController::getMazeModel()
@@ -66,20 +64,45 @@ void CMazeController::processKeyinput(QKeyEvent* event)
     switch (event->key())
     {
         case Qt::Key_Left:
+            if ((mAlgorithmSteps - 1) >= 0 && (mAlgorithmSteps - 1) < mMazeSolutionStorage->getStorageSize())
+            {
+                mAlgorithmSteps--;
+                mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
+            }
             break;
         case Qt::Key_Right:
+            if ((mAlgorithmSteps + 1) >= 0 && (mAlgorithmSteps + 1) < mMazeSolutionStorage->getStorageSize())
+            {
+                mAlgorithmSteps++;
+                mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
+            }
+            break;
+        case Qt::Key_Up:
+            mAlgorithmSteps = 0;
+            mVisualizer.draw(*mWidget, mMazeSolutionStorage->getModelAt(mAlgorithmSteps));
             break;
         default:
             break;
     }
 }
 
-void CMazeController::draw(QWidget* widget)
+void CMazeController::processAlgorithmIteration()
 {
-   CMazeVisualizer::getVizualizer().draw(widget);
+    mMazeSolutionStorage->pushBackModel(*mMazeModel);
+    qDebug() << "CMazeController::processAlgorithmIteration() storageSize=" << mMazeSolutionStorage->getStorageSize();
+}
+
+void CMazeController::draw()
+{
+   mVisualizer.draw(*mWidget);
 }
 
 std::function<void(QKeyEvent*)> CMazeController::getKeyEventHandler() const
 {
     return mKeyEventHandler;
+}
+
+std::function<void()>& CMazeController::getAlgorithmIterationCallback()
+{
+    return mAlgorithmIterationCallback;
 }
