@@ -1,4 +1,5 @@
 #pragma once
+
 #include <memory>
 #include <functional>
 #include "Vector2D.h"
@@ -25,6 +26,8 @@ public:
    const Vector2D& getEndPoint() const;
    void setObstacles(const std::vector<Vector2D>& cells);
 
+   void processMazeCellClick(const int x, const int y);
+
    void draw();
    std::function<void(QKeyEvent*)> getKeyEventHandler() const;
    std::function<void()>& getAlgorithmIterationCallback();
@@ -33,6 +36,7 @@ private:
    void fillMaze();
    void processKeyinput(QKeyEvent* event);
    void processAlgorithmIteration();
+   const Vector2D calculateCellByCoordinate(const Vector2D& point) const;
 
 private:
    std::shared_ptr<CMazeModel> mMazeModel;

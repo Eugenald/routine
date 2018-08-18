@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "widgets/MainWindow.h"
 #include "CMazeController.h"
 #include "CAStarMazeSolver.h"
 #include "Vector2D.h"

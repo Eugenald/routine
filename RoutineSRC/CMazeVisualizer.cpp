@@ -64,12 +64,19 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
    {
       for (int x = 0; x < width; x++)
       {
-         QLabel* pixmap = new QLabel;
+         MazeLabel* pixmap = new MazeLabel;
 
          pixmap->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
          pixmap->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DEFAULT)]));
+
+
          mLabelArray.push_back(pixmap);
       }
+   }
+
+   for (auto i : mLabelArray)
+   {
+      connect(i, &MazeLabel::clicked, this, &CMazeVisualizer::triggerClick);
    }
 }
 
@@ -104,4 +111,20 @@ void CMazeVisualizer::draw(QWidget* widget, const CMazeModel* model) const
    }
 
    widget->show();
+}
+
+uint16_t CMazeVisualizer::getCellSize() const
+{
+   return CELLSIZE;
+}
+
+uint16_t CMazeVisualizer::getCellMargin() const
+{
+   return MARGIN;
+}
+
+void CMazeVisualizer::triggerClick(const int x, const int y)
+{
+   qDebug() << "CMazeVisualizer::triggerClick" << x << " " << y;
+   mMazeCtrl.processMazeCellClick(x, y);
 }

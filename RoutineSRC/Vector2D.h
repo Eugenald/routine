@@ -11,6 +11,7 @@ public:
    Vector2D& operator*=(const Vector2D& v) { x *= v.x; y *= v.y; return *this; }
    Vector2D& operator/=(const Vector2D& v) { x /= v.x; y /= v.y; return *this; }
    friend bool operator==(const Vector2D& left, const Vector2D& right);
+   friend bool operator!=(const Vector2D& left, const Vector2D& right);
 
 public:
    int16_t x;
@@ -23,4 +24,8 @@ inline std::ostream &operator<<(std::ostream &os, Vector2D const &m) {
 
 inline bool operator==(const Vector2D& left, const Vector2D& right) {
    return left.x == right.x && left.y == right.y;
+}
+
+inline bool operator!=(const Vector2D& left, const Vector2D& right) {
+   return !(left == right);
 }

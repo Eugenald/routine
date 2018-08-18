@@ -149,7 +149,7 @@ char CAStarMazeSolver::getDirTo(const Vector2D& from, const Vector2D& to, const 
 {
     Vector2D diff = from;
     diff -= to;
-    char result = PATH_SYMBOL;
+    char result = DEFAULT_SYMBOL;
 
     if (diff.x == 1 && diff.y == 0)
     {

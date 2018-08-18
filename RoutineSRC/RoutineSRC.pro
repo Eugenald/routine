@@ -19,8 +19,9 @@ SOURCES += \
     CMazeController.cpp \
     CMazeModel.cpp \
     CMazeVisualizer.cpp \
-    MainWindow.cpp \
-    CMazeSolutionStorage.cpp
+    widgets\MainWindow.cpp \
+    CMazeSolutionStorage.cpp \
+    widgets/MazeLabel.cpp
 
 HEADERS += \
     CAStarMazeSolver.h \
@@ -28,8 +29,9 @@ HEADERS += \
     CMazeModel.h \
     CMazeVisualizer.h \
     Vector2D.h \
-    MainWindow.h \
-    CMazeSolutionStorage.h
+    widgets\MainWindow.h \
+    CMazeSolutionStorage.h \
+    widgets/MazeLabel.h
 
 FORMS += \
         mainwindow.ui

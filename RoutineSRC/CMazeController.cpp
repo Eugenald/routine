@@ -56,13 +56,25 @@ void CMazeController::setObstacles(const std::vector<Vector2D>& cells)
    }
 }
 
+void CMazeController::processMazeCellClick(const int x, const int y)
+{
+   const Vector2D cell = calculateCellByCoordinate(Vector2D(x, y));
+   qDebug() << "CMazeController::processMazeCellClick" << cell.x << " " << cell.y;
+
+   if (cell != getStartPoint() && cell != getEndPoint())
+   {
+      mMazeModel->getCellContent(cell) == OBSTACLE_SYMBOL ? mMazeModel->setCellContent(cell, DEFAULT_SYMBOL) : mMazeModel->setCellContent(cell, OBSTACLE_SYMBOL);
+      draw();
+   }
+}
+
 void CMazeController::fillMaze()
 {
    for (uint8_t y = 0; y < mMazeModel->getHeight(); y++)
    {
       for (uint8_t x = 0; x < mMazeModel->getWidth(); x++)
       {
-         mMazeModel->setCellContent(Vector2D(x,y), PATH_SYMBOL);
+         mMazeModel->setCellContent(Vector2D(x,y), DEFAULT_SYMBOL);
       }
    }
 }
@@ -70,7 +82,7 @@ void CMazeController::fillMaze()
 void CMazeController::processKeyinput(QKeyEvent* event)
 {
    const uint32_t prevStep = mAlgorithmSteps - 1;
-   const uint32_t nextStep = mAlgorithmSteps - 1;
+   const uint32_t nextStep = mAlgorithmSteps + 1;
 
    switch (event->key())
    {
@@ -101,6 +113,15 @@ void CMazeController::processAlgorithmIteration()
 {
    mMazeSolutionStorage->pushBackModel(*mMazeModel);
    qDebug() << "CMazeController::processAlgorithmIteration() storageSize=" << mMazeSolutionStorage->getStorageSize();
+}
+
+const Vector2D CMazeController::calculateCellByCoordinate(const Vector2D& point) const
+{
+   const uint16_t cellSize = mVisualizer.getCellSize() + mVisualizer.getCellMargin();
+   const uint16_t x = static_cast<uint16_t>(point.x / cellSize);
+   const uint16_t y = static_cast<uint16_t>(point.y / cellSize);
+
+   return Vector2D(x, y);
 }
 
 void CMazeController::draw()

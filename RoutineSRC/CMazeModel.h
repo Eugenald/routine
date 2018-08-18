@@ -4,10 +4,10 @@
 #include <limits>
 #include "Vector2D.h"
 
-const char DEFAULT_SYMBOL = '-';
+const char DEFAULT_SYMBOL = '0';
 const char GOAL_SYMBOL = '1';
 const char START_SYMBOL = '*';
-const char PATH_SYMBOL = '0';
+//const char PATH_SYMBOL = '0';
 const char DIR_UP_SYMBOL = 'u';
 const char DIR_DOWN_SYMBOL = 'd';
 const char DIR_LEFT_SYMBOL = 'l';
