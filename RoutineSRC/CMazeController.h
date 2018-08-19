@@ -24,6 +24,7 @@ public:
    void setEndPoint(const Vector2D& point);
    const Vector2D& getStartPoint() const;
    const Vector2D& getEndPoint() const;
+   void setDebuggerInfo(const QString& text);
 
    void processMazeCellClick(const int x, const int y);
 

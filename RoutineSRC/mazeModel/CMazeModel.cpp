@@ -25,7 +25,7 @@ CMazeModel::CMazeModel(const uint8_t _width, const uint8_t _height)
       }
    }
 
-   mAlgoIterationCallback =  std::bind(&CMazeModel::processAlgorithmIteration, this);
+   mAlgoIterationCallback =  std::bind(&CMazeModel::processAlgorithmIteration, this, std::placeholders::_1);
 }
 
 void CMazeModel::initialize(const Vector2D& startPoint, const Vector2D& finish)
@@ -36,9 +36,15 @@ void CMazeModel::initialize(const Vector2D& startPoint, const Vector2D& finish)
    mMazeSolver.setAlgorithmIterationCallback(mAlgoIterationCallback);
 }
 
-void CMazeModel::processAlgorithmIteration()
+void CMazeModel::processAlgorithmIteration(const std::vector<Cell*>& vec)
 {
-   mMazeSolutionStorage.pushBackModelData(getMazeData());
+   QString debugInfo = QString();
+   for (auto i : vec)
+   {
+      debugInfo.append(i->coordinate.toString() + " cost=" + QString::number(i->totalCost) + "\n");
+   }
+
+   mMazeSolutionStorage.pushBackModelData(getMazeData(), std::move(debugInfo));
    mAlgorithmSteps = mMazeSolutionStorage.getStorageSize() - 1;
    qDebug() << "CMazeModel::processAlgorithmIteration() storageSize=" << mMazeSolutionStorage.getStorageSize();
 }
@@ -114,6 +120,7 @@ const std::vector<Cell>* CMazeModel::getNextSolution()
    if (nextStep < mMazeSolutionStorage.getStorageSize())
    {
       mAlgorithmSteps++;
+
       return mMazeSolutionStorage.getModelDataAt(mAlgorithmSteps);
    }
    else
@@ -135,4 +142,9 @@ const std::vector<Cell>* CMazeModel::getPreviousSolution()
    {
       return nullptr;
    }
+}
+
+QString CMazeModel::getDebugInfoOnCurrentStep() const
+{
+   return mMazeSolutionStorage.getModelDebugInfoAt(mAlgorithmSteps);
 }

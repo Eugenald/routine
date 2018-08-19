@@ -12,6 +12,8 @@ public:
    CMazeDebugger(const CMazeDebugger&) = delete;
    CMazeDebugger& operator= (const CMazeDebugger&) = delete;
 
+   void setText(const QString& text);
+
 private:
    QTextEdit* mTextWidget;
 };

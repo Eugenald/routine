@@ -35,6 +35,11 @@ const Vector2D& CMazeController::getEndPoint() const
    return mMazeModel.getEndPoint();
 }
 
+void CMazeController::setDebuggerInfo(const QString& text)
+{
+   mDebugger->setText(text);
+}
+
 void CMazeController::processMazeCellClick(const int x, const int y)
 {
    const Vector2D cell = calculateCellByCoordinate(Vector2D(x, y));
@@ -57,6 +62,7 @@ void CMazeController::processKeyinput(QKeyEvent* event)
          if (prevSolution)
          {
             mVisualizer.draw(*mWidget, *prevSolution);
+            mDebugger->setText(mMazeModel.getDebugInfoOnCurrentStep());
          }
          break;
       }
@@ -66,6 +72,7 @@ void CMazeController::processKeyinput(QKeyEvent* event)
          if (nextSolution)
          {
             mVisualizer.draw(*mWidget, *nextSolution);
+            mDebugger->setText(mMazeModel.getDebugInfoOnCurrentStep());
          }
          break;
       }

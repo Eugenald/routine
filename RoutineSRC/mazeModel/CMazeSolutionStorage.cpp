@@ -11,7 +11,12 @@ CMazeSolutionStorage::CMazeSolutionStorage(uint16_t expectedAmount /*=0*/)
 
 const std::vector<Cell>* CMazeSolutionStorage::getModelDataAt(const uint32_t index) const
 {
-   return index < mModelStorage.size() ? &mModelStorage[index] : nullptr;
+   return index < mModelStorage.size() ? &mModelStorage[index].first : nullptr;
+}
+
+QString CMazeSolutionStorage::getModelDebugInfoAt(const uint32_t index) const
+{
+   return index < mModelStorage.size() ? mModelStorage[index].second : QString();
 }
 
 uint32_t CMazeSolutionStorage::getStorageSize() const
@@ -19,9 +24,9 @@ uint32_t CMazeSolutionStorage::getStorageSize() const
    return mModelStorage.size();
 }
 
-void CMazeSolutionStorage::pushBackModelData(const std::vector<Cell>& modelData)
+void CMazeSolutionStorage::pushBackModelData(const std::vector<Cell>& modelData, const QString debugInfo /*= QString()*/ )
 {
-   mModelStorage.push_back(modelData);
+   mModelStorage.push_back(std::make_pair(modelData, debugInfo));
 }
 
 void CMazeSolutionStorage::clearStorage()

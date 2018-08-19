@@ -8,3 +8,7 @@ CMazeDebugger::CMazeDebugger(QTextEdit* textWidget)
 
 }
 
+void CMazeDebugger::setText(const QString& text)
+{
+   mTextWidget->setText(text);
+}

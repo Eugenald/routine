@@ -19,6 +19,7 @@ public:
    void restart();
    const std::vector<Cell>* getNextSolution();
    const std::vector<Cell>* getPreviousSolution();
+   QString getDebugInfoOnCurrentStep() const;
 
    inline uint16_t getWidth() const;
    inline uint16_t getHeight() const;
@@ -34,7 +35,7 @@ public:
    inline const CMazeSolutionStorage& getSolutions() const;
 
 private:
-   void processAlgorithmIteration();
+   void processAlgorithmIteration(const std::vector<Cell*>& vec);
 
 private:
    uint8_t mWidth;
@@ -48,7 +49,7 @@ private:
    CAStarMazeSolver mMazeSolver;
    CMazeSolutionStorage mMazeSolutionStorage;
    uint32_t mAlgorithmSteps;
-   std::function<void()> mAlgoIterationCallback;
+   std::function<void(std::vector<Cell*>)> mAlgoIterationCallback;
 };
 
 uint16_t CMazeModel::getWidth() const

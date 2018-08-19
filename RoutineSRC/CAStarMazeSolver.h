@@ -17,7 +17,7 @@ public:
    ~CAStarMazeSolver() = default;
 
    void solve();
-   void setAlgorithmIterationCallback(std::function<void()>& callback);
+   void setAlgorithmIterationCallback(std::function<void(std::vector<Cell*>)>& callback);
    std::function<void()>& getRecalculationCallback();
 
 private:
@@ -32,5 +32,5 @@ private:
 
 private:
    CMazeModel& mMaze;
-   std::function<void()> mIterationCallback;
+   std::function<void(std::vector<Cell*>)> mIterationCallback;
 };

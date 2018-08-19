@@ -25,13 +25,15 @@ void CAStarMazeSolver::solve()
       {
          std::cout << "GOAL FOUND " << current->coordinate << std::endl;
          restorePathToGoal(current);
-         mIterationCallback();
+         mIterationCallback(cellsForAnalysis);
          return;
       }
 
       current->content = restoreCommonState(current->content);
       current->processed = true;
       cellsForAnalysis.pop_back();
+
+      mIterationCallback(cellsForAnalysis);
 
       std::cout << "*******************************" << std::endl;
       std::cout << "ANALYZING " << current->coordinate << " processed=" << current->processed << std::endl;
@@ -67,8 +69,6 @@ void CAStarMazeSolver::solve()
          std::cout << cellsForAnalysis.size() << std::endl;
          std::cout << "=====================================" << std::endl;
       }
-
-      mIterationCallback();
    }
 }
 
@@ -116,7 +116,7 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
    return v;
 }
 
-void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void()>& callback)
+void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void(std::vector<Cell*>)>& callback)
 {
    mIterationCallback = callback;
 }
@@ -124,9 +124,10 @@ void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void()>& call
 bool CAStarMazeSolver::checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node)
 {
    //std::cout << "vec.size()=" << vec.size() << std::endl;
-   std::find_if(vec.begin(), vec.end(), [&](Cell* cell) {return *cell == node;} );
-   
-   return false;
+
+   auto it = std::find_if(vec.begin(), vec.end(), [&](Cell* cell) {return *cell == node;} );
+
+   return it != vec.end();
 }
 
 void CAStarMazeSolver::restorePathToGoal(Cell* goal)
