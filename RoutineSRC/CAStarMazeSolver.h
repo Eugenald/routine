@@ -1,16 +1,22 @@
 #pragma once
 
 #include <memory>
-#include "CMazeController.h"
+#include <vector>
+#include <functional>
+
+struct Cell;
+class CMazeModel;
+class Vector2D;
 
 class CAStarMazeSolver
 {
 public:
-   explicit CAStarMazeSolver(CMazeController& mazeCtrl);
+   explicit CAStarMazeSolver(CMazeModel& mazeCtrl);
    ~CAStarMazeSolver() = default;
 
    void solve();
-   void setAlgorithmIterationCallback(std::function<void()> callback);
+   void setAlgorithmIterationCallback(std::function<void()>& callback);
+   std::function<void()>& getRecalculationCallback();
 
 private:
    float calculateDistance(const Vector2D& start, const Vector2D& end);
@@ -22,6 +28,7 @@ private:
    static char getDirTo(const Vector2D& child, const Vector2D& parent, const bool resultDir=false);
 
 private:
-   CMazeController& mMazeCtrl;
+   CMazeModel& mMaze;
    std::function<void()> mIterationCallback;
+   std::function<void()> mRecalculationCallback;
 };

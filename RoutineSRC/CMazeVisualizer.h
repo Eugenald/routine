@@ -5,7 +5,7 @@
 
 class QLabel;
 class CMazeController;
-class CMazeModel;
+struct Cell;
 
 enum class Texture: char{ DEFAULT, GOAL, START, UP, DOWN, LEFT, RIGHT, UP_RES, DOWN_RES, LEFT_RES, RIGHT_RES };
 
@@ -13,13 +13,13 @@ class CMazeVisualizer : public QObject
 {
 public:
    explicit CMazeVisualizer(CMazeController& mazeCtrl);
-   ~CMazeVisualizer() = default;
+   ~CMazeVisualizer();
    CMazeVisualizer(const CMazeVisualizer&) = delete;
    CMazeVisualizer& operator= (const CMazeVisualizer&) = delete;
 
    void prepareWidgets(const int width, const int height);
    void draw(QWidget* widget) const;
-   void draw(QWidget* widget, const CMazeModel* model) const;
+   void draw(QWidget* widget, const std::vector<Cell>&) const;
 
    uint16_t getCellSize() const;
    uint16_t getCellMargin() const;

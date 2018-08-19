@@ -1,22 +1,17 @@
 #include "CAStarMazeSolver.h"
+#include "mazeModel\CMazeModel.h"
 #include <iostream>
 #include <algorithm>
 
-CAStarMazeSolver::CAStarMazeSolver(CMazeController& mazeCtrl)
-   : mMazeCtrl(mazeCtrl)
+CAStarMazeSolver::CAStarMazeSolver(CMazeModel& maze)
+   : mMaze(maze)
 {
 }
 
 void CAStarMazeSolver::solve()
-{
-   if (!mMazeCtrl.getMazeModel()->isEndPointSet() || !mMazeCtrl.getMazeModel()->isStartPointSet())
-   {
-      std::cout << "START or END point is not set " << std::endl;
-      return;
-   }
-   
-   Cell* startCell = mMazeCtrl.getMazeModel()->getCell(mMazeCtrl.getStartPoint());
-   startCell->heuristicCost = calculateDistance(mMazeCtrl.getStartPoint(), mMazeCtrl.getEndPoint());
+{   
+   Cell* startCell = mMaze.getCell(mMaze.getStartPoint());
+   startCell->heuristicCost = calculateDistance(mMaze.getStartPoint(), mMaze.getEndPoint());
    startCell->totalCost = startCell->weight + startCell->heuristicCost;
    std::cout << "startCost = " << startCell->totalCost << std::endl;
 
@@ -43,7 +38,7 @@ void CAStarMazeSolver::solve()
 
       for (auto neighbourCell : findNeighbours(*current))
       {
-         float currentCost = neighbourCell->weight + calculateDistance(neighbourCell->coordinate, mMazeCtrl.getEndPoint());
+         float currentCost = neighbourCell->weight + calculateDistance(neighbourCell->coordinate, mMaze.getEndPoint());
          neighbourCell->cameFrom = current;
 
          if (!checkVectorOccurence(cellsForAnalysis, *neighbourCell))
@@ -93,10 +88,10 @@ Cell* CAStarMazeSolver::sortAndGetNearestNode(std::vector<Cell*>& array)
 std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
 {
    Vector2D coors = cell.coordinate;
-   Cell* upper = mMazeCtrl.getMazeModel()->getCell(Vector2D(coors.x, coors.y - 1));
-   Cell* lower = mMazeCtrl.getMazeModel()->getCell(Vector2D(coors.x, coors.y + 1));
-   Cell* left = mMazeCtrl.getMazeModel()->getCell(Vector2D(coors.x - 1, coors.y));
-   Cell* right = mMazeCtrl.getMazeModel()->getCell(Vector2D(coors.x + 1, coors.y));
+   Cell* upper = mMaze.getCell(Vector2D(coors.x, coors.y - 1));
+   Cell* lower = mMaze.getCell(Vector2D(coors.x, coors.y + 1));
+   Cell* left = mMaze.getCell(Vector2D(coors.x - 1, coors.y));
+   Cell* right = mMaze.getCell(Vector2D(coors.x + 1, coors.y));
 
    auto checkAvailability = [](Cell* cell) -> bool
                             {
@@ -116,9 +111,14 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
    return v;
 }
 
-void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void()> callback)
+void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void()>& callback)
 {
     mIterationCallback = callback;
+}
+
+std::function<void()>& CAStarMazeSolver::getRecalculationCallback()
+{
+   return mRecalculationCallback;
 }
 
 bool CAStarMazeSolver::checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node)

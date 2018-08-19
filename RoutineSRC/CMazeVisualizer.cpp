@@ -56,6 +56,14 @@ CMazeVisualizer::CMazeVisualizer(CMazeController& mazeCtrl)
    }
 }
 
+CMazeVisualizer::~CMazeVisualizer()
+{
+   for (auto i : mLabelArray)
+   {
+      delete i;
+   }
+}
+
 void CMazeVisualizer::prepareWidgets(const int width, const int height)
 {
    mLabelArray.reserve(width*height);
@@ -68,8 +76,6 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
 
          pixmap->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
          pixmap->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DEFAULT)]));
-
-
          mLabelArray.push_back(pixmap);
       }
    }
@@ -82,28 +88,38 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
 
 void CMazeVisualizer::draw(QWidget* widget) const
 {
-   draw(widget, mMazeCtrl.getMazeModel().get());
+   draw(widget, mMazeCtrl.getMazeModel().getMazeData());
 }
 
-void CMazeVisualizer::draw(QWidget* widget, const CMazeModel* model) const
+void CMazeVisualizer::draw(QWidget* widget, const std::vector<Cell>& mazeData) const
 {
+   const uint16_t width = mMazeCtrl.getMazeModel().getWidth();
+   const uint16_t height = mMazeCtrl.getMazeModel().getHeight();
+
    for (auto i : mLabelArray)
    {
       i->setParent(widget);
    }
 
-   auto getIndex = [&](const Vector2D& point)
+   auto getIndex = [&](const Vector2D& point) -> uint16_t
    {
-      return point.x + point.y * model->getWidth();
+      return static_cast<uint16_t>(point.x + point.y * width);
    };
 
-   for (uint8_t y = 0; y < model->getHeight(); y++)
+   for (uint8_t y = 0; y < height; y++)
    {
-      for (uint8_t x = 0; x < model->getWidth(); x++)
+      for (uint8_t x = 0; x < width; x++)
       {
          auto iter = std::find_if (mTextures.begin(), mTextures.end(), [&](const std::tuple<Texture, QPixmap, QString, char>& tuple)
          {
-            return std::get<char>(tuple) == model->getCellContent(Vector2D(x,y));
+            if (getIndex(Vector2D(x,y)) < mazeData.size())
+            {
+               return std::get<char>(tuple) == mazeData[getIndex(Vector2D(x,y))].content;
+            }
+            else
+            {
+               return false;
+            }
          } );
 
          mLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(*iter));
@@ -125,6 +141,5 @@ uint16_t CMazeVisualizer::getCellMargin() const
 
 void CMazeVisualizer::triggerClick(const int x, const int y)
 {
-   qDebug() << "CMazeVisualizer::triggerClick" << x << " " << y;
    mMazeCtrl.processMazeCellClick(x, y);
 }

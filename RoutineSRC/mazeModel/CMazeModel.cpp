@@ -1,4 +1,5 @@
 #include <iostream>
+#include <QDebug>
 #include "CMazeModel.h"
 
 CMazeModel::CMazeModel(const uint8_t _width, const uint8_t _height)
@@ -8,6 +9,8 @@ CMazeModel::CMazeModel(const uint8_t _width, const uint8_t _height)
    , mEndPoint()
    , mStartPointIsSet(false)
    , mEndPointIsSet(false)
+   , mMazeSolver(*this)
+   , mMazeSolutionStorage(_width + _height)
 {
    mCellArray.reserve(mWidth*mHeight);
 
@@ -18,35 +21,38 @@ CMazeModel::CMazeModel(const uint8_t _width, const uint8_t _height)
          mCellArray.push_back(Cell(DEFAULT_SYMBOL, Vector2D(x, y)));
       }
    }
+
+   mAlgoIterationCallback =  std::bind(&CMazeModel::processAlgorithmIteration, this);
 }
 
-int CMazeModel::getWidth() const
+void CMazeModel::initialize(const Vector2D& startPoint, const Vector2D& finish)
 {
-   return mWidth;
+   setStartPoint(startPoint);
+   setEndPoint(finish);
+
+   mMazeSolver.setAlgorithmIterationCallback(mAlgoIterationCallback);
 }
 
-int CMazeModel::getHeight() const
+void CMazeModel::solve()
 {
-   return mHeight;
+   if (isEndPointSet() && isStartPointSet())
+   {
+      mMazeSolver.solve();
+   }
+   else
+   {
+      std::cout << "START or END point is not set " << std::endl;
+   }
 }
 
-void CMazeModel::setCellContent(const Vector2D& cell, const char content)
+void CMazeModel::processAlgorithmIteration()
 {
-   mCellArray[getIndex(cell)].content = content;
-}
-
-char CMazeModel::getCellContent(const Vector2D& cell) const
-{
-   return mCellArray[getIndex(cell)].content;
-}
-
-Cell* CMazeModel::getCell(const Vector2D& point)
-{
-   return (getIndex(point) < mCellArray.size() && point.x >= 0 && point.y >= 0) ? &mCellArray[getIndex(point)] : nullptr;
+   mMazeSolutionStorage.pushBackModelData(getMazeData());
+   qDebug() << "CMazeModel::processAlgorithmIteration() storageSize=" << mMazeSolutionStorage.getStorageSize();
 }
 
 void CMazeModel::setStartPoint(const Vector2D& point)
-   {
+{
    mStartPoint = point;
    const uint16_t index = getIndex(mStartPoint);
 
@@ -80,24 +86,4 @@ void CMazeModel::setEndPoint(const Vector2D& point)
    {
       std::cout << "EndPoint out of range" << std::endl;
    }
-}
-
-const Vector2D& CMazeModel::getStartPoint() const
-{
-   return mStartPoint;
-}
-
-const Vector2D& CMazeModel::getEndPoint() const
-{
-   return mEndPoint;
-}
-
-bool CMazeModel::isStartPointSet() const
-{
-   return mStartPointIsSet;
-}
-
-bool CMazeModel::isEndPointSet() const
-{
-   return mEndPointIsSet;
 }

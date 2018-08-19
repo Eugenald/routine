@@ -17,21 +17,22 @@ SOURCES += \
         main.cpp \
     CAStarMazeSolver.cpp \
     CMazeController.cpp \
-    CMazeModel.cpp \
     CMazeVisualizer.cpp \
+    mazeModel\CMazeModel.cpp \
+    mazeModel\CMazeSolutionStorage.cpp \
     widgets\MainWindow.cpp \
-    CMazeSolutionStorage.cpp \
-    widgets/MazeLabel.cpp
+    widgets\MazeLabel.cpp
 
 HEADERS += \
     CAStarMazeSolver.h \
     CMazeController.h \
-    CMazeModel.h \
     CMazeVisualizer.h \
-    Vector2D.h \
-    widgets\MainWindow.h \
-    CMazeSolutionStorage.h \
-    widgets/MazeLabel.h
+    mazeModel\CMazeModel.h \
+    mazeModel\CMazeSolutionStorage.h \
+    widgets\MainWindow.h \ 
+    widgets\MazeLabel.h \
+    commonTypes\Vector2D.h \
+    commonTypes\Cell.h
 
 FORMS += \
         mainwindow.ui

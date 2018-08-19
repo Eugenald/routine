@@ -2,18 +2,18 @@
 
 #include <vector>
 
-class CMazeModel;
+struct Cell;
 
 class CMazeSolutionStorage
 {
 public:
    explicit CMazeSolutionStorage(uint16_t expectedAmount = 0);
 
-   const CMazeModel* getModelAt(const uint32_t index) const;
+   const std::vector<Cell>* getModelDataAt(const uint32_t index) const;
    uint32_t getStorageSize() const;
-   void pushBackModel(const CMazeModel& model);
+   void pushBackModelData(const std::vector<Cell>& modelData);
    void clearStorage();
 
 private:
-   std::vector<CMazeModel> mModelStorage;
+   std::vector<std::vector<Cell>> mModelStorage;
 };
