@@ -29,6 +29,7 @@ void CAStarMazeSolver::solve()
          return;
       }
 
+      current->content = restoreCommonState(current->content);
       current->processed = true;
       cellsForAnalysis.pop_back();
 
@@ -41,12 +42,6 @@ void CAStarMazeSolver::solve()
          float currentCost = neighbourCell->weight + calculateDistance(neighbourCell->coordinate, mMaze.getEndPoint());
          neighbourCell->cameFrom = current;
 
-         if (!checkVectorOccurence(cellsForAnalysis, *neighbourCell))
-         {
-            std::cout << "WRITE TO VECTOR" << std::endl;
-            cellsForAnalysis.push_back(neighbourCell);
-         }
-
          if (currentCost < neighbourCell->totalCost)
          {
             std::cout << "PROCESS" << std::endl;
@@ -54,7 +49,17 @@ void CAStarMazeSolver::solve()
 
             if (neighbourCell->content != GOAL_SYMBOL)
             {
-                neighbourCell->content = getDirTo(current->coordinate, neighbourCell->coordinate);
+               neighbourCell->content = getDirTo(current->coordinate, neighbourCell->coordinate);
+            }
+         }
+
+         if (!checkVectorOccurence(cellsForAnalysis, *neighbourCell))
+         {
+            std::cout << "WRITE TO VECTOR" << std::endl;
+            cellsForAnalysis.push_back(neighbourCell);
+            if (neighbourCell->content != GOAL_SYMBOL)
+            {
+               neighbourCell->content = getDirTo(current->coordinate, neighbourCell->coordinate, ArrowType::PROCESSING);
             }
          }
 
@@ -75,7 +80,7 @@ float CAStarMazeSolver::calculateDistance(const Vector2D& start, const Vector2D&
 Cell* CAStarMazeSolver::sortAndGetNearestNode(std::vector<Cell*>& array)
 {
    std::sort(array.begin(), array.end(), [](Cell* s1, Cell* s2) -> bool
-                                         { return s1->totalCost > s2->totalCost; } );
+   { return s1->totalCost > s2->totalCost; } );
    /*std::cout << "sortAndGetNearestNode " << std::endl;
    for (auto i : *array)
    {
@@ -94,9 +99,9 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
    Cell* right = mMaze.getCell(Vector2D(coors.x + 1, coors.y));
 
    auto checkAvailability = [](Cell* cell) -> bool
-                            {
-                              return cell != nullptr && cell->processed == false && cell->content != OBSTACLE_SYMBOL;
-                            };
+   {
+      return cell != nullptr && cell->processed == false && cell->content != OBSTACLE_SYMBOL;
+   };
 
    std::vector<Cell*> v;
    for (auto node : { upper, lower, left, right })
@@ -113,17 +118,12 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
 
 void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void()>& callback)
 {
-    mIterationCallback = callback;
-}
-
-std::function<void()>& CAStarMazeSolver::getRecalculationCallback()
-{
-   return mRecalculationCallback;
+   mIterationCallback = callback;
 }
 
 bool CAStarMazeSolver::checkVectorOccurence(const std::vector<Cell*>& vec, const Cell& node)
 {
-  //std::cout << "vec.size()=" << vec.size() << std::endl;
+   //std::cout << "vec.size()=" << vec.size() << std::endl;
    std::find_if(vec.begin(), vec.end(), [&](Cell* cell) {return *cell == node;} );
    
    return false;
@@ -135,38 +135,63 @@ void CAStarMazeSolver::restorePathToGoal(Cell* goal)
 
    while (currentNode)
    {
-       if (currentNode->cameFrom != nullptr)
-       {
-           std::cout << "currentNode=" << currentNode->coordinate << " cameFrom=" << currentNode->cameFrom->coordinate << std::endl;
-           currentNode->content = getDirTo(currentNode->cameFrom->coordinate, currentNode->coordinate, true);
-
-       }
-       currentNode = currentNode->cameFrom;
+      if (currentNode->cameFrom != nullptr)
+      {
+         std::cout << "currentNode=" << currentNode->coordinate << " cameFrom=" << currentNode->cameFrom->coordinate << std::endl;
+         currentNode->content = getDirTo(currentNode->cameFrom->coordinate, currentNode->coordinate, ArrowType::RESULT);
+      }
+      currentNode = currentNode->cameFrom;
    }
 }
 
-char CAStarMazeSolver::getDirTo(const Vector2D& from, const Vector2D& to, const bool resultDir /*=false*/)
+char CAStarMazeSolver::getDirTo(const Vector2D& from, const Vector2D& to,  const ArrowType resultDir/* = ArrowType::COMMON*/)
 {
-    Vector2D diff = from;
-    diff -= to;
-    char result = DEFAULT_SYMBOL;
+#define GETARROWCHAR(DIRECTION) \
+   switch(resultDir) \
+   { \
+      case ArrowType::COMMON: \
+         result = DIR_##DIRECTION##_SYMBOL; \
+         break; \
+      case ArrowType::RESULT: \
+         result = RESULT_##DIRECTION##_SYMBOL; \
+         break; \
+      case ArrowType::PROCESSING: \
+         result = PROCESSING_##DIRECTION##_SYMBOL; \
+         break; \
+   }
 
-    if (diff.x == 1 && diff.y == 0)
-    {
-        result = resultDir ? DIR_LEFT_RES_SYMBOL : DIR_LEFT_SYMBOL;
-    }
-    else if (diff.x == -1 && diff.y == 0)
-    {
-        result = resultDir ? DIR_RIGHT_RES_SYMBOL : DIR_RIGHT_SYMBOL;
-    }
-    else if (diff.x == 0 && diff.y == 1)
-    {
-        result = resultDir ? DIR_UP_RES_SYMBOL : DIR_UP_SYMBOL;
-    }
-    else if (diff.x == 0 && diff.y == -1)
-    {
-        result = resultDir ? DIR_DOWN_RES_SYMBOL : DIR_DOWN_SYMBOL;
-    }
+   Vector2D diff = from;
+   diff -= to;
+   char result = DEFAULT_SYMBOL;
 
-    return result;
+   if (diff.x == 1 && diff.y == 0)
+   {
+      GETARROWCHAR(LEFT);
+   }
+   else if (diff.x == -1 && diff.y == 0)
+   {
+      GETARROWCHAR(RIGHT);
+   }
+   else if (diff.x == 0 && diff.y == 1)
+   {
+      GETARROWCHAR(UP);
+   }
+   else if (diff.x == 0 && diff.y == -1)
+   {
+      GETARROWCHAR(DOWN);
+   }
+
+   return result;
+}
+
+char CAStarMazeSolver::restoreCommonState(char prevState)
+{
+   switch(prevState)
+   {
+      case PROCESSING_LEFT_SYMBOL: return DIR_LEFT_SYMBOL;
+      case PROCESSING_RIGHT_SYMBOL: return DIR_RIGHT_SYMBOL;
+      case PROCESSING_UP_SYMBOL: return DIR_UP_SYMBOL;
+      case PROCESSING_DOWN_SYMBOL: return DIR_DOWN_SYMBOL;
+      default: return prevState;
+   }
 }

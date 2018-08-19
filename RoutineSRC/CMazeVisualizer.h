@@ -7,7 +7,10 @@ class QLabel;
 class CMazeController;
 struct Cell;
 
-enum class Texture: char{ DEFAULT, GOAL, START, UP, DOWN, LEFT, RIGHT, UP_RES, DOWN_RES, LEFT_RES, RIGHT_RES };
+enum class Texture: char{ DEFAULT, GOAL, START, OBSTACLE,
+                          UP, DOWN, LEFT, RIGHT,
+                          UP_RES, DOWN_RES, LEFT_RES, RIGHT_RES,
+                          UP_PROC, DOWN_PROC, LEFT_PROC, RIGHT_PROC };
 
 class CMazeVisualizer : public QObject
 {

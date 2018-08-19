@@ -7,8 +7,8 @@
 CMazeController::CMazeController(QWidget* widget, const Vector2D& size)
    : mMazeModel(size.x, size.y)
    , mWidget(std::make_shared<QWidget*>(widget))
-   , mAlgorithmSteps(0)
    , mVisualizer(*this)
+   , mDebugger(nullptr)
 {
    mVisualizer.prepareWidgets(size.x, size.y);
    mKeyEventHandler = std::bind(&CMazeController::processKeyinput, this, std::placeholders::_1);
@@ -35,14 +35,6 @@ const Vector2D& CMazeController::getEndPoint() const
    return mMazeModel.getEndPoint();
 }
 
-void CMazeController::setObstacles(const std::vector<Vector2D>& cells)
-{
-   for (auto cell : cells)
-   {
-      mMazeModel.setCellContent(cell, OBSTACLE_SYMBOL);
-   }
-}
-
 void CMazeController::processMazeCellClick(const int x, const int y)
 {
    const Vector2D cell = calculateCellByCoordinate(Vector2D(x, y));
@@ -57,28 +49,33 @@ void CMazeController::processMazeCellClick(const int x, const int y)
 
 void CMazeController::processKeyinput(QKeyEvent* event)
 {
-   const uint32_t prevStep = mAlgorithmSteps - 1;
-   const uint32_t nextStep = mAlgorithmSteps + 1;
-   const CMazeSolutionStorage& storage = mMazeModel.getSolutions();
-
    switch (event->key())
    {
       case Qt::Key_Left:
-         if (prevStep < storage.getStorageSize())
+      {
+         auto prevSolution = mMazeModel.getPreviousSolution();
+         if (prevSolution)
          {
-            mAlgorithmSteps--;
-            mVisualizer.draw(*mWidget, *storage.getModelDataAt(mAlgorithmSteps));
+            mVisualizer.draw(*mWidget, *prevSolution);
          }
          break;
+      }
       case Qt::Key_Right:
-         if (nextStep < storage.getStorageSize())
+      {
+         auto nextSolution = mMazeModel.getNextSolution();
+         if (nextSolution)
          {
-            mAlgorithmSteps++;
-            mVisualizer.draw(*mWidget, *storage.getModelDataAt(mAlgorithmSteps));
+            mVisualizer.draw(*mWidget, *nextSolution);
          }
          break;
+      }
       case Qt::Key_Up:
-         processRestart();
+         mMazeModel.restart();
+         mVisualizer.draw(*mWidget);
+         break;
+      case Qt::Key_Down:
+         mMazeModel.solve();
+         mVisualizer.draw(*mWidget);
          break;
       default:
          break;
@@ -94,13 +91,6 @@ const Vector2D CMazeController::calculateCellByCoordinate(const Vector2D& point)
    return Vector2D(x, y);
 }
 
-void CMazeController::processRestart()
-{
-   mAlgorithmSteps = 0;
-
-   mVisualizer.draw(*mWidget, *mMazeModel.getSolutions().getModelDataAt(mAlgorithmSteps));
-}
-
 void CMazeController::draw()
 {
    mVisualizer.draw(*mWidget);
@@ -109,6 +99,11 @@ void CMazeController::draw()
 void CMazeController::solve()
 {
    mMazeModel.solve();
+}
+
+void CMazeController::setDebugInfoPlaceholder(QTextEdit* textWidget)
+{
+   mDebugger = new CMazeDebugger(textWidget);
 }
 
 std::function<void(QKeyEvent*)> CMazeController::getKeyEventHandler() const

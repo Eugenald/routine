@@ -21,7 +21,8 @@ SOURCES += \
     mazeModel\CMazeModel.cpp \
     mazeModel\CMazeSolutionStorage.cpp \
     widgets\MainWindow.cpp \
-    widgets\MazeLabel.cpp
+    widgets\MazeLabel.cpp \
+    CMazeDebugger.cpp
 
 HEADERS += \
     CAStarMazeSolver.h \
@@ -32,7 +33,8 @@ HEADERS += \
     widgets\MainWindow.h \ 
     widgets\MazeLabel.h \
     commonTypes\Vector2D.h \
-    commonTypes\Cell.h
+    commonTypes\Cell.h \
+    CMazeDebugger.h
 
 FORMS += \
         mainwindow.ui

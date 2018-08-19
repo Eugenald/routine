@@ -9,6 +9,7 @@
 const QString DEFAULT_TEXTURE = ":/images/button.png";
 const QString GOAL_TEXTURE = ":/images/goal.png";
 const QString START_TEXTURE = ":/images/start.png";
+const QString OBSTACLE_TEXTURE = ":/images/obstacle.png";
 const QString UP_TEXTURE = ":/images/up.png";
 const QString DOWN_TEXTURE = ":/images/down.png";
 const QString LEFT_TEXTURE = ":/images/left.png";
@@ -17,7 +18,11 @@ const QString UP_RES_TEXTURE = ":/images/resultUp.png";
 const QString DOWN_RES_TEXTURE = ":/images/resultDown.png";
 const QString LEFT_RES_TEXTURE = ":/images/resultLeft.png";
 const QString RIGHT_RES_TEXTURE = ":/images/resultRight.png";
-const QString OBSTACLE_TEXTURE = ":/images/obstacle.png";
+const QString UP_PROC_TEXTURE = ":/images/processingUp.png";
+const QString DOWN_PROC_TEXTURE = ":/images/processingDown.png";
+const QString LEFT_PROC_TEXTURE = ":/images/processingLeft.png";
+const QString RIGHT_PROC_TEXTURE = ":/images/processingRight.png";
+
 
 CMazeVisualizer::CMazeVisualizer(CMazeController& mazeCtrl)
    : mMazeCtrl(mazeCtrl)
@@ -28,15 +33,19 @@ CMazeVisualizer::CMazeVisualizer(CMazeController& mazeCtrl)
    mTextures = { {Texture::DEFAULT, QPixmap(), DEFAULT_TEXTURE, '0'},
                  {Texture::GOAL, QPixmap(), GOAL_TEXTURE, GOAL_SYMBOL},
                  {Texture::START, QPixmap(), START_TEXTURE, START_SYMBOL},
+                 {Texture::OBSTACLE, QPixmap(), OBSTACLE_TEXTURE, OBSTACLE_SYMBOL},
                  {Texture::UP, QPixmap(), UP_TEXTURE, DIR_UP_SYMBOL},
                  {Texture::DOWN, QPixmap(), DOWN_TEXTURE, DIR_DOWN_SYMBOL},
                  {Texture::LEFT, QPixmap(), LEFT_TEXTURE, DIR_LEFT_SYMBOL},
                  {Texture::RIGHT, QPixmap(), RIGHT_TEXTURE, DIR_RIGHT_SYMBOL},
-                 {Texture::UP_RES, QPixmap(), UP_RES_TEXTURE, DIR_UP_RES_SYMBOL},
-                 {Texture::DOWN_RES, QPixmap(), DOWN_RES_TEXTURE, DIR_DOWN_RES_SYMBOL},
-                 {Texture::LEFT_RES, QPixmap(), LEFT_RES_TEXTURE, DIR_LEFT_RES_SYMBOL},
-                 {Texture::RIGHT_RES, QPixmap(), RIGHT_RES_TEXTURE, DIR_RIGHT_RES_SYMBOL},
-                 {Texture::RIGHT_RES, QPixmap(), OBSTACLE_TEXTURE, OBSTACLE_SYMBOL} };
+                 {Texture::UP_RES, QPixmap(), UP_RES_TEXTURE, RESULT_UP_SYMBOL},
+                 {Texture::DOWN_RES, QPixmap(), DOWN_RES_TEXTURE, RESULT_DOWN_SYMBOL},
+                 {Texture::LEFT_RES, QPixmap(), LEFT_RES_TEXTURE, RESULT_LEFT_SYMBOL},
+                 {Texture::RIGHT_RES, QPixmap(), RIGHT_RES_TEXTURE, RESULT_RIGHT_SYMBOL},
+                 {Texture::UP_PROC, QPixmap(), UP_PROC_TEXTURE, PROCESSING_UP_SYMBOL},
+                 {Texture::DOWN_PROC, QPixmap(), DOWN_PROC_TEXTURE, PROCESSING_DOWN_SYMBOL},
+                 {Texture::LEFT_PROC, QPixmap(), LEFT_PROC_TEXTURE, PROCESSING_LEFT_SYMBOL},
+                 {Texture::RIGHT_PROC, QPixmap(), RIGHT_PROC_TEXTURE, PROCESSING_RIGHT_SYMBOL} };
 
    auto textureLoading = [](QPixmap& pixmap, const QString& texturePath)
    {

@@ -11,6 +11,10 @@
         <file>images/resultDown.png</file>
         <file>images/resultLeft.png</file>
         <file>images/resultRight.png</file>
-		<file>images/obstacle.png</file>
+		<file>images/processingUp.png</file>
+        <file>images/processingDown.png</file>
+        <file>images/processingLeft.png</file>
+        <file>images/processingRight.png</file>
+        <file>images/obstacle.png</file>
     </qresource>
 </RCC>

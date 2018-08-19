@@ -16,6 +16,9 @@ public:
    void setStartPoint(const Vector2D& point);
    void setEndPoint(const Vector2D& point);
    void solve();
+   void restart();
+   const std::vector<Cell>* getNextSolution();
+   const std::vector<Cell>* getPreviousSolution();
 
    inline uint16_t getWidth() const;
    inline uint16_t getHeight() const;
@@ -44,7 +47,7 @@ private:
    bool mEndPointIsSet;
    CAStarMazeSolver mMazeSolver;
    CMazeSolutionStorage mMazeSolutionStorage;
-
+   uint32_t mAlgorithmSteps;
    std::function<void()> mAlgoIterationCallback;
 };
 

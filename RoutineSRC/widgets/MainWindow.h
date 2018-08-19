@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QTextEdit>
 #include <functional>
 
 namespace Ui {
@@ -16,6 +17,7 @@ public:
    ~MainWindow();
 
    void setKeyEventCallback(const std::function<void(QKeyEvent*)>& function);
+   QTextEdit* getTextBrowser();
 
 protected:
    virtual void keyPressEvent(QKeyEvent* event);
