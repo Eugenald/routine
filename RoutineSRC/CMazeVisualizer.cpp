@@ -59,18 +59,14 @@ CMazeVisualizer::CMazeVisualizer(CMazeController& mazeCtrl)
       }
    };
 
-   for (auto& i : mTextures)
+   for (auto& texture : mTextures)
    {
-      textureLoading(std::get<1>(i), std::get<2>(i));
+      textureLoading(std::get<1>(texture), std::get<2>(texture));
    }
 }
 
 CMazeVisualizer::~CMazeVisualizer()
 {
-   for (auto i : mLabelArray)
-   {
-      delete i;
-   }
 }
 
 void CMazeVisualizer::prepareWidgets(const int width, const int height)
@@ -81,17 +77,18 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
    {
       for (int x = 0; x < width; x++)
       {
-         MazeLabel* pixmap = new MazeLabel;
+         std::unique_ptr<MazeLabel> pixmap = std::make_unique<MazeLabel>();
+         std::unique_ptr<MazeLabel> pixmap2;
 
          pixmap->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
          pixmap->setPixmap(std::get<1>(mTextures[static_cast<int>(Texture::DEFAULT)]));
-         mLabelArray.push_back(pixmap);
+         mLabelArray.push_back(std::move(pixmap));
       }
    }
 
-   for (auto i : mLabelArray)
+   for (const auto& label : mLabelArray)
    {
-      connect(i, &MazeLabel::clicked, this, &CMazeVisualizer::triggerClick);
+      connect(label.get(), &MazeLabel::clicked, this, &CMazeVisualizer::triggerClick);
    }
 }
 
@@ -105,9 +102,9 @@ void CMazeVisualizer::draw(QWidget* widget, const std::vector<Cell>& mazeData) c
    const uint16_t width = mMazeCtrl.getMazeModel().getWidth();
    const uint16_t height = mMazeCtrl.getMazeModel().getHeight();
 
-   for (auto i : mLabelArray)
+   for (auto& label : mLabelArray)
    {
-      i->setParent(widget);
+      label->setParent(widget);
    }
 
    auto getIndex = [&](const Vector2D& point) -> uint16_t
@@ -119,7 +116,7 @@ void CMazeVisualizer::draw(QWidget* widget, const std::vector<Cell>& mazeData) c
    {
       for (uint8_t x = 0; x < width; x++)
       {
-         auto iter = std::find_if (mTextures.begin(), mTextures.end(), [&](const std::tuple<Texture, QPixmap, QString, char>& tuple)
+         const auto iter = std::find_if (mTextures.begin(), mTextures.end(), [&](const std::tuple<Texture, QPixmap, QString, char>& tuple)
          {
             if (getIndex(Vector2D(x,y)) < mazeData.size())
             {

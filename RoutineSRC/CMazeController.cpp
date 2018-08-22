@@ -47,7 +47,7 @@ void CMazeController::processMazeCellClick(const int x, const int y)
 
    if (cell != getStartPoint() && cell != getEndPoint())
    {
-      mMazeModel.getCellContent(cell) == OBSTACLE_SYMBOL ? mMazeModel.setCellContent(cell, DEFAULT_SYMBOL) : mMazeModel.setCellContent(cell, OBSTACLE_SYMBOL);
+      mMazeModel.getCellContent(cell) == OBSTACLE_SYMBOL ? mMazeModel.setCellContent(std::move(cell), DEFAULT_SYMBOL) : mMazeModel.setCellContent(std::move(cell), OBSTACLE_SYMBOL);
       draw();
    }
 }

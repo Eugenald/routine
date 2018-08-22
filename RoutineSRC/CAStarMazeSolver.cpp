@@ -39,7 +39,7 @@ void CAStarMazeSolver::solve()
       std::cout << "ANALYZING " << current->coordinate << " processed=" << current->processed << std::endl;
       std::cout << "*******************************" << std::endl;
 
-      for (auto neighbourCell : findNeighbours(*current))
+      for (const auto& neighbourCell : findNeighbours(*current))
       {
          float currentCost = neighbourCell->weight + calculateDistance(neighbourCell->coordinate, mMaze.getEndPoint());
          neighbourCell->cameFrom = current;
@@ -103,20 +103,20 @@ std::vector<Cell*> CAStarMazeSolver::findNeighbours(const Cell& cell) const
       return cell != nullptr && cell->processed == false && cell->content != OBSTACLE_SYMBOL;
    };
 
-   std::vector<Cell*> v;
+   std::vector<Cell*> neighbours;
    for (auto node : { upper, lower, left, right })
    {
       if (node)
       {
          //std::cout << "findNeighbours " << node->coordinate << " processed=" << node->processed << std::endl;
-         if (checkAvailability(node)) v.push_back(node);
+         if (checkAvailability(node)) neighbours.push_back(node);
       }
    }
 
-   return v;
+   return neighbours;
 }
 
-void CAStarMazeSolver::setAlgorithmIterationCallback(std::function<void(std::vector<Cell*>)>& callback)
+void CAStarMazeSolver::setAlgorithmIterationCallback(iterationCallback callback)
 {
    mIterationCallback = callback;
 }
@@ -125,7 +125,7 @@ bool CAStarMazeSolver::checkVectorOccurence(const std::vector<Cell*>& vec, const
 {
    //std::cout << "vec.size()=" << vec.size() << std::endl;
 
-   auto it = std::find_if(vec.begin(), vec.end(), [&](Cell* cell) {return *cell == node;} );
+   const auto it = std::find_if(vec.begin(), vec.end(), [&](const Cell* cell) {return *cell == node;} );
 
    return it != vec.end();
 }

@@ -8,7 +8,9 @@ struct Cell;
 class CMazeModel;
 class Vector2D;
 
-enum class ArrowType: char{ COMMON, RESULT, PROCESSING};
+enum class ArrowType: char{ COMMON, RESULT, PROCESSING };
+
+using iterationCallback = std::function<void(std::vector<Cell*>)>;
 
 class CAStarMazeSolver
 {
@@ -17,8 +19,7 @@ public:
    ~CAStarMazeSolver() = default;
 
    void solve();
-   void setAlgorithmIterationCallback(std::function<void(std::vector<Cell*>)>& callback);
-   std::function<void()>& getRecalculationCallback();
+   void setAlgorithmIterationCallback(iterationCallback callback);
 
 private:
    float calculateDistance(const Vector2D& start, const Vector2D& end);
@@ -32,5 +33,5 @@ private:
 
 private:
    CMazeModel& mMaze;
-   std::function<void(std::vector<Cell*>)> mIterationCallback;
+   iterationCallback mIterationCallback;
 };

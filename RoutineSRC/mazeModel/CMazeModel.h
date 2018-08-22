@@ -49,7 +49,7 @@ private:
    CAStarMazeSolver mMazeSolver;
    CMazeSolutionStorage mMazeSolutionStorage;
    uint32_t mAlgorithmSteps;
-   std::function<void(std::vector<Cell*>)> mAlgoIterationCallback;
+   iterationCallback mAlgoIterationCallback;
 };
 
 uint16_t CMazeModel::getWidth() const

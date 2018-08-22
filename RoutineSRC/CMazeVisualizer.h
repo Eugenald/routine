@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include <memory>
 #include <widgets/MazeLabel.h>
 
 class QLabel;
@@ -34,5 +35,5 @@ private:
    CMazeController& mMazeCtrl;
    QPixmap mDefaultTexture;
    QVector<std::tuple<Texture, QPixmap, QString, char>> mTextures;
-   QVector<MazeLabel*> mLabelArray;
+   std::vector<std::unique_ptr<MazeLabel>> mLabelArray;
 };
