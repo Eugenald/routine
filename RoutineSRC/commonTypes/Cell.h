@@ -39,7 +39,6 @@ struct Cell
    Cell* cameFrom = nullptr;
    Vector2D coordinate = Vector2D(0, 0);
 
-   friend bool operator==(Cell& left, Cell& right);
    friend bool operator==(const Cell& left, const Cell& right);
 };
 

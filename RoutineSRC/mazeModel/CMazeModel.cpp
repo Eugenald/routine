@@ -38,10 +38,10 @@ void CMazeModel::initialize(const Vector2D& startPoint, const Vector2D& finish)
 
 void CMazeModel::processAlgorithmIteration(const std::vector<Cell*>& vec)
 {
-   QString debugInfo = QString();
-   for (auto i : vec)
+   QString debugInfo;
+   for (auto cell : vec)
    {
-      debugInfo.append(i->coordinate.toString() + " cost=" + QString::number(i->totalCost) + "\n");
+      debugInfo.append(cell->coordinate.toString() + " cost=" + QString::number(cell->totalCost) + "\n");
    }
 
    mMazeSolutionStorage.pushBackModelData(getMazeData(), std::move(debugInfo));
@@ -104,11 +104,11 @@ void CMazeModel::restart()
    mAlgorithmSteps = 0;
    mMazeSolutionStorage.clearStorage();
 
-   for (auto& i : mCellArray)
+   for (auto& cell : mCellArray)
    {
-      if (i.content != GOAL_SYMBOL && i.content != START_SYMBOL && i.content != OBSTACLE_SYMBOL)
+      if (cell.content != GOAL_SYMBOL && cell.content != START_SYMBOL && cell.content != OBSTACLE_SYMBOL)
       {
-         i.clear();
+         cell.clear();
       }
    }
 }
