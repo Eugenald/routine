@@ -17,7 +17,7 @@ class CMazeVisualizer : public QObject
 {
 public:
    explicit CMazeVisualizer(CMazeController& mazeCtrl);
-   ~CMazeVisualizer();
+   ~CMazeVisualizer() = default;
    CMazeVisualizer(const CMazeVisualizer&) = delete;
    CMazeVisualizer& operator= (const CMazeVisualizer&) = delete;
 
@@ -34,6 +34,8 @@ public:
 private:
    CMazeController& mMazeCtrl;
    QPixmap mDefaultTexture;
-   QVector<std::tuple<Texture, QPixmap, QString, char>> mTextures;
-   std::vector<std::unique_ptr<MazeLabel>> mLabelArray;
+   QVector<std::tuple<Texture, QPixmap, QString, char>> mCellTextures;
+   QVector<std::tuple<QPixmap, QString, int>> mNumberTextures;
+   std::vector<std::unique_ptr<MazeLabel>> mCellLabelArray;
+   std::vector<std::unique_ptr<MazeLabel>> mNumberLabelArray;
 };
