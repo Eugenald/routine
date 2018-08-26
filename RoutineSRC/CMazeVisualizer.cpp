@@ -87,7 +87,7 @@ CMazeVisualizer::CMazeVisualizer(CMazeController& mazeCtrl)
 
    for (auto& texture : mCellTextures)
    {
-      textureLoading(std::get<1>(texture), std::get<2>(texture), CELLSIZE, CELLSIZE);
+      textureLoading(std::get<QPixmap>(texture), std::get<QString>(texture), CELLSIZE, CELLSIZE);
    }
 
    for (auto& texture : mNumberTextures)
@@ -96,7 +96,7 @@ CMazeVisualizer::CMazeVisualizer(CMazeController& mazeCtrl)
    }
 }
 
-void CMazeVisualizer::prepareWidgets(const int width, const int height)
+void CMazeVisualizer::prepareWidgets(const uint8_t width, const uint8_t height)
 {
    mCellLabelArray.reserve(width*height);
    mNumberLabelArray.reserve(width*height*2);
@@ -111,11 +111,11 @@ void CMazeVisualizer::prepareWidgets(const int width, const int height)
          std::unique_ptr<MazeLabel> secondNumberLabel = std::make_unique<MazeLabel>();
 
          cellLabel->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN, y*CELLSIZE + y*MARGIN), QSize(CELLSIZE,CELLSIZE)));
-         cellLabel->setPixmap(std::get<1>(mCellTextures[static_cast<int>(Texture::DEFAULT)]));
+         cellLabel->setPixmap(std::get<QPixmap>(mCellTextures[static_cast<int>(Texture::DEFAULT)]));
          firstNumberLabel->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN + intent, y*CELLSIZE + y*MARGIN), QSize(NUMBERSIZEX, NUMBERSIZEY)));
-         firstNumberLabel->setPixmap(std::get<0>(mNumberTextures[0]));
+         firstNumberLabel->setPixmap(std::get<QPixmap>(mNumberTextures[0]));
          secondNumberLabel->setGeometry(QRect(QPoint(x*CELLSIZE + x*MARGIN + NUMBERSIZEX + intent, y*CELLSIZE + y*MARGIN), QSize(NUMBERSIZEX, NUMBERSIZEY)));
-         secondNumberLabel->setPixmap(std::get<0>(mNumberTextures[0]));
+         secondNumberLabel->setPixmap(std::get<QPixmap>(mNumberTextures[0]));
 
          mCellLabelArray.push_back(std::move(cellLabel));
          mNumberLabelArray.push_back(std::move(firstNumberLabel));
@@ -170,7 +170,7 @@ void CMazeVisualizer::draw(QWidget* widget, const std::vector<Cell>& mazeData) c
             }
          } );
 
-         mCellLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<1>(*iter));
+         mCellLabelArray[getIndex(Vector2D(x,y))]->setPixmap(std::get<QPixmap>(*iter));
       }
    }
 

@@ -6,6 +6,7 @@
 #include "commonTypes\Cell.h"
 #include "CAStarMazeSolver.h"
 #include "CMazeSolutionStorage.h"
+#include "CMazeWeightGenerator.h"
 
 class CMazeModel
 {
@@ -48,6 +49,7 @@ private:
    bool mEndPointIsSet;
    CAStarMazeSolver mMazeSolver;
    CMazeSolutionStorage mMazeSolutionStorage;
+   CMazeWeightGenerator mMazeWeightGenerator;
    uint32_t mAlgorithmSteps;
    iterationCallback mAlgoIterationCallback;
 };

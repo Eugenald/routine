@@ -21,7 +21,7 @@ public:
    CMazeVisualizer(const CMazeVisualizer&) = delete;
    CMazeVisualizer& operator= (const CMazeVisualizer&) = delete;
 
-   void prepareWidgets(const int width, const int height);
+   void prepareWidgets(const uint8_t width, const uint8_t height);
    void draw(QWidget* widget) const;
    void draw(QWidget* widget, const std::vector<Cell>&) const;
 

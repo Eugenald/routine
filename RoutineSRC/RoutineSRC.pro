@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
+    main.cpp \
     CAStarMazeSolver.cpp \
     CMazeController.cpp \
     CMazeVisualizer.cpp \
@@ -22,7 +22,8 @@ SOURCES += \
     mazeModel\CMazeSolutionStorage.cpp \
     widgets\MainWindow.cpp \
     widgets\MazeLabel.cpp \
-    CMazeDebugger.cpp
+    CMazeDebugger.cpp \
+    mazeModel\CMazeWeightGenerator.cpp
 
 HEADERS += \
     CAStarMazeSolver.h \
@@ -34,7 +35,8 @@ HEADERS += \
     widgets\MazeLabel.h \
     commonTypes\Vector2D.h \
     commonTypes\Cell.h \
-    CMazeDebugger.h
+    CMazeDebugger.h \
+    mazeModel\CMazeWeightGenerator.h
 
 FORMS += \
         mainwindow.ui
@@ -42,4 +44,4 @@ FORMS += \
 DISTFILES +=
 
 RESOURCES += \
-    image.qrc
+    resources/resources.qrc

@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>maze/mazeCellWeights</file>
         <file>images/button.png</file>
         <file>images/down.png</file>
         <file>images/goal.png</file>
@@ -11,20 +12,20 @@
         <file>images/resultDown.png</file>
         <file>images/resultLeft.png</file>
         <file>images/resultRight.png</file>
-		<file>images/processingUp.png</file>
+        <file>images/processingUp.png</file>
         <file>images/processingDown.png</file>
         <file>images/processingLeft.png</file>
         <file>images/processingRight.png</file>
         <file>images/obstacle.png</file>
-		<file>images/0.png</file>
-		<file>images/1.png</file>
-		<file>images/2.png</file>
-		<file>images/3.png</file>
-		<file>images/4.png</file>
-		<file>images/5.png</file>
-		<file>images/6.png</file>
-		<file>images/7.png</file>
-		<file>images/8.png</file>
-		<file>images/9.png</file>
+        <file>images/0.png</file>
+        <file>images/1.png</file>
+        <file>images/2.png</file>
+        <file>images/3.png</file>
+        <file>images/4.png</file>
+        <file>images/5.png</file>
+        <file>images/6.png</file>
+        <file>images/7.png</file>
+        <file>images/8.png</file>
+        <file>images/9.png</file>
     </qresource>
 </RCC>

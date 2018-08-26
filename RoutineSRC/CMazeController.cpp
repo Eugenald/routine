@@ -5,12 +5,12 @@
 #include "CMazeController.h"
 
 CMazeController::CMazeController(QWidget* widget, const Vector2D& size)
-   : mMazeModel(size.x, size.y)
+   : mMazeModel(static_cast<uint8_t>(size.x), static_cast<uint8_t>(size.y))
    , mWidget(std::make_shared<QWidget*>(widget))
    , mVisualizer(*this)
    , mDebugger(nullptr)
 {
-   mVisualizer.prepareWidgets(size.x, size.y);
+   mVisualizer.prepareWidgets(static_cast<uint8_t>(size.x), static_cast<uint8_t>(size.y));
    mKeyEventHandler = std::bind(&CMazeController::processKeyinput, this, std::placeholders::_1);
 
 }

@@ -12,6 +12,7 @@ CMazeModel::CMazeModel(const uint8_t _width, const uint8_t _height)
    , mEndPointIsSet(false)
    , mMazeSolver(*this)
    , mMazeSolutionStorage(_width + _height)
+   , mMazeWeightGenerator(_width, _height)
    , mAlgorithmSteps(0)
    , mAlgoIterationCallback()
 {
